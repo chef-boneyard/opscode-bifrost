@@ -15,3 +15,12 @@ depends "apt", "~> 1.4.8"
 
 depends "opscode-postgresql"
 depends "erlang_binary"
+
+# For installing / running pg_prove
+depends "perl"
+
+# For installing pgTAP from source
+depends "git"
+
+# For installing pgTAP via pgxnclient (actually, for building pgxnclient)
+depends "python"
