@@ -1,10 +1,5 @@
-
 default['opscode-authz']['user']  = "opscode"
 default['opscode-authz']['group'] = "opscode"
-
-# This setting should be changed if not running via Vagrant from the
-# oc_authz repository, obviously
-default['opscode-authz']['source_dir'] = "/vagrant"
 
 # The Git commit / tag / branch you want to check out and build from
 default['opscode-authz']['revision'] = "master"
