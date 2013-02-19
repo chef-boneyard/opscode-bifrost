@@ -1,6 +1,6 @@
 name             "opscode-authz"
-maintainer       "Opscode, Inc."
-maintainer_email "dev@opscode.com"
+maintainer       "Christopher Maier"
+maintainer_email "cm@opscode.com"
 license          "All rights reserved"
 description      "Installs/Configures oc_authz"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
@@ -16,11 +16,6 @@ depends "apt", "~> 1.4.8"
 depends "opscode-postgresql"
 depends "erlang_binary"
 
-# For installing / running pg_prove
 depends "perl"
-
-# For installing pgTAP from source
 depends "git"
-
-# For installing pgTAP via pgxnclient (actually, for building pgxnclient)
 depends "python"
