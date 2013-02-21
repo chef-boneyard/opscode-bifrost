@@ -1,6 +1,6 @@
 include_recipe "opscode-postgresql"
 
-node['opscode-authz']['database']['users'].to_hash.each do |role, user|
+node['oc_heimdall']['database']['users'].to_hash.each do |role, user|
   # Note: 'role' here is just the key this user's hash was stored
   # under in the node... we don't care (yet) what that is, we just
   # want to create the users.
@@ -26,13 +26,13 @@ node['opscode-authz']['database']['users'].to_hash.each do |role, user|
 end
 
 # Extract the database name to make things a little less verbose here
-database_name = node['opscode-authz']['database']['name']
+database_name = node['oc_heimdall']['database']['name']
 
 execute "create_database" do
   command """
     createdb --template template0 \
              --encoding UTF-8 \
-             --owner #{node['opscode-authz']['database']['users']['owner']['name']} \
+             --owner #{node['oc_heimdall']['database']['users']['owner']['name']} \
              #{database_name}
     """
   user "postgres"
@@ -53,7 +53,7 @@ end
 # (https://github.com/theory/sqitch), from the creator of pgTAP.
 execute "migrate_database" do
   command "psql -d #{database_name} --set ON_ERROR_STOP=1 --single-transaction -f heimdall.sql"
-  cwd "#{node['opscode-authz']['source_dir']}/schema/sql"
+  cwd "#{node['oc_heimdall']['source_dir']}/schema/sql"
   user "postgres"
 
   # Once we're using proper migrations, we can just have this action
@@ -100,19 +100,19 @@ end
 #                               :username => 'postgres',
 #                               :password => node['postgresql']['password']['postgres']}
 
-# postgresql_database node['opscode-authz']['database']['name'] do
+# postgresql_database node['oc_heimdall']['database']['name'] do
 #   connection postgresql_connection_info
 #   action :create
 #   template 'DEFAULT'
 #   encoding 'DEFAULT'
-#   owner node['opscode-authz']['database']['owner']
+#   owner node['oc_heimdall']['database']['owner']
 #   notifies :query, "postgresql_database[install_schema]", :immediately
 # end
 
 # # TODO: IDEMPOTENCE
 # postgresql_database "install_schema" do
 #   connection postgresql_connection_info
-#   database_name node['opscode-authz']['database']['name']
+#   database_name node['oc_heimdall']['database']['name']
 #   action :nothing
-#   sql { ::File.open("/vagrant/schema/sql/authz.sql").read }
+#   sql { ::File.open("/vagrant/schema/sql/heimdall.sql").read }
 # end

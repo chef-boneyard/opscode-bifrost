@@ -1,13 +1,13 @@
-name             "opscode-authz"
+name             "opscode-heimdall"
 maintainer       "Christopher Maier"
 maintainer_email "cm@opscode.com"
 license          "All rights reserved"
-description      "Installs/Configures oc_authz"
+description      "Installs/Configures oc_heimdall, the Opscode Authorization API"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          "0.1.0"
 
-recipe "opscode-authz", "Installs Erlang and rebar (for now)"
-recipe "database", "Creates the authz database, schema, and users"
+recipe "opscode-heimdall", "Installs Erlang and rebar (for now)"
+recipe "database", "Creates the heimdall database, schema, and users"
 
 # This is to get around an apparent and not-yet-diagnosed bug in the
 # community postgresql cookbook
