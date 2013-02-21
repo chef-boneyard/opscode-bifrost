@@ -17,8 +17,8 @@ suites:
 - name: default
   run_list:
   - recipe[opscode-dev-shim]
-  - recipe[opscode-authz]
-  - recipe[opscode-authz::database_test]
+  - recipe[opscode-heimdall]
+  - recipe[opscode-heimdall::database_test]
   attributes:
     postgresql:
       password:
