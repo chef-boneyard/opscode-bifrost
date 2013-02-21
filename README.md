@@ -1,7 +1,7 @@
-opscode-authz cookbook
+opscode-heimdall cookbook
 ======================
 
-This cookbook installs and configures [oc_authz](https://github.com/opscode/oc_authz), the authorization API for Opscode services.
+This cookbook installs and configures [oc_heimdall](https://github.com/opscode/oc_heimdall), the authorization API for Opscode services.
 
 Requirements
 ============
@@ -12,7 +12,7 @@ Requirements
   [postgresql][] cookbook.  Defines common configuration and
   filesystem layout options for our infrastructure.
 * [perl][] - for installing / running [pg_prove][]
-* [git][] - for retrieving `oc_authz` and [pgTAP][] source code
+* [git][] - for retrieving `oc_heimdall` and [pgTAP][] source code
 * [python][] - for building [pgxnclient][], to install [pgTAP][]
 
 Usage
@@ -21,21 +21,21 @@ Usage
 Attributes
 ==========
 
-* `node['opscode-authz']['user']` - The owner of the `authz` server process
-* `node['opscode-authz']['group']` - The group of the `authz` server process
-* `node['opscode-authz']['revision']` - The Git branch / tag / SHA1 of
+* `node['oc_heimdall']['user']` - The owner of the `oc_heimdall` server process
+* `node['oc_heimdall']['group']` - The group of the `oc_heimdall` server process
+* `node['oc_heimdall']['revision']` - The Git branch / tag / SHA1 of
   the source code to fetch.
-* `node['opscode-authz']['database']['name']` - The name of the
-  database.  Defaults to `authz`.
-* `node['opscode-authz']['database']['users']['owner']['name']` - The
+* `node['oc_heimdall']['database']['name']` - The name of the
+  database.  Defaults to `heimdall`.
+* `node['oc_heimdall']['database']['users']['owner']['name']` - The
   PostgreSQL user that owns the database.
-* `node['opscode-authz']['database']['users']['owner']['password']` -
+* `node['oc_heimdall']['database']['users']['owner']['password']` -
   The password for the database owner.
-* `node['opscode-authz']['database']['users']['read_only']['name']` -
+* `node['oc_heimdall']['database']['users']['read_only']['name']` -
   A PostgreSQL database user with read-only permissions on the
   database.  Good for use by service engineers and on-call engineers
   that need to safely explore and debug the database.
-* `node['opscode-authz']['database']['users']['read_only']['password']`
+* `node['oc_heimdall']['database']['users']['read_only']['password']`
   - The password for the read-only database user.
 
 Recipes
@@ -44,17 +44,17 @@ Recipes
 * `common_directories` - Creates a common directory for source
   checkouts.  Could be extracted to a common platform-wide cookbook.
 * `database` - Installs and configures a PostgreSQL server.  Creates
-  database user accounts, the `authz` database, and migrates the
+  database user accounts, the `heimdall` database, and migrates the
   database schema.
 * `database_test` - In addition to everything that `database` does,
   installs [pgTAP][] and [pg_prove][] and prepares the database for
   running tests.
-* `default` - Installs Erlang and rebar, fetches the `oc_authz` code,
+* `default` - Installs Erlang and rebar, fetches the `oc_heimdall` code,
   and installs the database.
 * `development` - Development mode.  Use this recipe when hacking on
-  `oc_authz` locally via Vagrant.  Takes source code and schema from
+  `oc_heimdall` locally via Vagrant.  Takes source code and schema from
   the `/vagrant` directory instead of fetching from Github.
-* `fetch_code` - Grab the `oc_authz` code from Github __if not in
+* `fetch_code` - Grab the `oc_heimdall` code from Github __if not in
   development mode__.
 * `pg_prove` - Install [pg_prove][].  Will eventually be added to the
   [postgresql][] cookbook.
