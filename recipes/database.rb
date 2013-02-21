@@ -52,7 +52,7 @@ end
 # will adopt a migration approach.  A front-runner is Sqitch
 # (https://github.com/theory/sqitch), from the creator of pgTAP.
 execute "migrate_database" do
-  command "psql -d #{database_name} --set ON_ERROR_STOP=1 --single-transaction -f authz.sql"
+  command "psql -d #{database_name} --set ON_ERROR_STOP=1 --single-transaction -f heimdall.sql"
   cwd "#{node['opscode-authz']['source_dir']}/schema/sql"
   user "postgres"
 
