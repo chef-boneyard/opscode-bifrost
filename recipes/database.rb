@@ -43,6 +43,7 @@ execute "create_database" do
     | grep #{database_name}
     """, :user => "postgres"
   notifies :run, "execute[migrate_database]", :immediately
+  notifies :run, "execute[add_permissions]", :immediately
 end
 
 # TODO: Properly grant permissions for the different users
@@ -53,7 +54,7 @@ end
 # (https://github.com/theory/sqitch), from the creator of pgTAP.
 execute "migrate_database" do
   command "psql -d #{database_name} --set ON_ERROR_STOP=1 --single-transaction -f heimdall.sql"
-  cwd "#{node['oc_heimdall']['source_dir']}/schema/sql"
+  cwd "#{node['oc_heimdall']['src_dir']}/schema/sql"
   user "postgres"
 
   # Once we're using proper migrations, we can just have this action
@@ -61,6 +62,25 @@ execute "migrate_database" do
   # database is created
   action :nothing
 end
+
+# Permissions for the database users got set in the schema... though that means that the role names should be hard-coded in this cookbook.
+execute "add_permissions" do
+  command """
+    psql --dbname #{database_name} \
+         --single-transaction \
+         --set ON_ERROR_STOP=1 \
+         --set database_name=#{database_name} \
+         --file permissions.sql
+  """
+  cwd "#{node['oc_heimdall']['src_dir']}/schema/sql"
+  user "postgres"
+
+  # Eventually, this will probably just be part of the migration
+  action :nothing
+end
+
+
+
 
 ################################################################################
 # TODO:
