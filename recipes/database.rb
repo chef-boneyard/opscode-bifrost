@@ -53,7 +53,7 @@ end
 # (https://github.com/theory/sqitch), from the creator of pgTAP.
 execute "migrate_database" do
   command "psql -d #{database_name} --set ON_ERROR_STOP=1 --single-transaction -f heimdall.sql"
-  cwd "#{node['oc_heimdall']['source_dir']}/schema/sql"
+  cwd "#{node['oc_heimdall']['src_dir']}/schema/sql"
   user "postgres"
 
   # Once we're using proper migrations, we can just have this action

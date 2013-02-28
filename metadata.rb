@@ -16,6 +16,8 @@ depends "apt", "~> 1.4.8"
 depends "opscode-postgresql"
 depends "erlang_binary"
 
+depends "runit", "0.13.0" # internal fork
+
 depends "perl"
 depends "git"
 depends "python"

@@ -2,9 +2,10 @@
 # TODO: Extract this source directory to a common recipe that can be
 # used across our infrastructure.
 
-node.set['source_directory'] = "/usr/local/src"
+# This is a common place where we can download and build project source code
+node.set['src_dir'] = "/usr/local/src"
 
-directory node['source_directory'] do
+directory node['src_dir'] do
   owner "opscode"
   group "opscode"
   mode "0755"
