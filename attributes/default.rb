@@ -4,7 +4,7 @@ default['app_name'] = "oc_heimdall"
 # The Git commit / tag / branch you want to check out and build from
 default['oc_heimdall']['revision'] = "master"
 
-default['oc_heimdall']['host'] = "127.0.0.1"
+default['oc_heimdall']['host'] = "0.0.0.0"
 default['oc_heimdall']['port'] = 5959
 
 default['oc_heimdall']['database']['name'] = "heimdall"
