@@ -12,7 +12,16 @@ ruby_block "rebuild_#{app_name}" do
   if File.directory?("#{node['runit']['sv_dir']}/#{app_name}")
     notifies :stop, "service[#{app_name}]", :immediately
   end
-  notifies :run, "execute[build_#{app_name}]", :immediately
+
+  if node[app_name]['development_mode']
+    # Don't fetch deps again, just rebuild the release; if you add
+    # another dep, either manually call 'rebar get-deps', or just
+    # rebuild the VM
+    notifies :run, "execute[rel_#{app_name}]", :immediately
+  else
+    notifies :run, "execute[distclean_#{app_name}]", :immediately
+  end
+
   notifies :restart, "service[#{app_name}]", :delayed
   action :nothing
 end
@@ -42,11 +51,16 @@ else
   end
 end
 
-# If this is a standard makefile target, this is common, too
-execute "build_#{app_name}" do
-  command "make distclean rel"
+execute "distclean_#{app_name}" do
+  command "make distclean"
   cwd node[app_name]['src_dir']
-  notifies :restart, "service[#{app_name}]", :delayed
+  notifies :run, "execute[rel_#{app_name}]", :immediately
+  action :nothing
+end
+
+execute "rel_#{app_name}" do
+  command "make relclean rel"
+  cwd node[app_name]['src_dir']
   action :nothing
 end
 
