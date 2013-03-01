@@ -26,6 +26,8 @@ default['oc_heimdall']['database']['users']['owner']['password'] = "challengeacc
 default['oc_heimdall']['database']['users']['read_only']['name'] = "heimdall_ro"
 default['oc_heimdall']['database']['users']['read_only']['password'] = "foreveralone"
 
+default['oc_heimdall']['pedant_revision'] = "master"
+
 # These attributes are used by Opscode's 'erlang_binary' cookbook
 default["erlang_version"] = "erlang_R15B01"
 default["rebar_version"]  = "2.0.0"
