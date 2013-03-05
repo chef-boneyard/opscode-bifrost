@@ -14,6 +14,7 @@ recipe "database", "Creates the heimdall database, schema, and users"
 depends "apt", "~> 1.4.8"
 
 depends "opscode-postgresql"
+depends "opscode-pedant"
 depends "erlang_binary"
 
 depends "runit", "0.13.0" # internal fork
