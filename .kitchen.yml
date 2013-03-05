@@ -7,19 +7,25 @@ platforms:
     box_url: https://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-ubuntu-10.04.box
   run_list:
   - recipe[apt]
-# - name: ubuntu-12.04
-#   driver_config:
-#     box: opscode-ubuntu-12.04
-#     box_url: https://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-ubuntu-12.04.box
-#   run_list:
-#   - recipe[apt]
+  - recipe[opscode-dev-shim]
+- name: ubuntu-12.04
+  driver_config:
+    box: opscode-ubuntu-12.04
+    box_url: https://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-ubuntu-12.04.box
+  run_list:
+  - recipe[apt]
+  - recipe[opscode-dev-shim]
+
 suites:
 - name: default
   run_list:
-  - recipe[opscode-dev-shim]
   - recipe[opscode-heimdall]
-  - recipe[opscode-heimdall::database_test]
+  - recipe[opscode-heimdall::test]
   attributes:
+    oc_heimdall:
+      revision: master
+    oc-authz-pedant:
+      revision: master
     postgresql:
       password:
         postgres: honeybadger
