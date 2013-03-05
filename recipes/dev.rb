@@ -5,4 +5,4 @@
 node.set['oc_heimdall']['development_mode'] = true
 
 include_recipe "opscode-heimdall::default"
-include_recipe "opscode-heimdall::database_test"
+include_recipe "opscode-heimdall::test"
