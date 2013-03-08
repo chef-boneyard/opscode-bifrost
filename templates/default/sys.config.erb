@@ -13,12 +13,6 @@
          {error_logger_mf_maxbytes, 104857600},   % 10 MB max file size
          {error_logger_mf_maxfiles, 5}           % 5 files max
         ]},
- %% {fast_log, [
- %%             {loggers, [[{name, erchef},
- %%                         {file, "<%= File.join(@log_dir, 'oc_erchef.log') %>"},
- %%                         {files, 5},
- %%                         {file_size, 50}]]}
- %%            ]},
  {lager, [
             %% What handlers to install with what arguments
             %% The defaults for the logfiles are to rotate the files when
@@ -61,6 +55,9 @@
             %% Whether to redirect error_logger messages into lager - defaults to true
             {error_logger_redirect, true}
         ]},
+ {webmachine, [
+               {webmachine_logger_module, heimdall_request_logger}
+              ]},
  {sqerl, [
           {db_type, pgsql},
           {db_host, "<%= @db_host %>" },
