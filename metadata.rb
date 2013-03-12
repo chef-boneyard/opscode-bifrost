@@ -9,16 +9,17 @@ version          "0.1.0"
 recipe "opscode-heimdall", "Installs Erlang and rebar (for now)"
 recipe "database", "Creates the heimdall database, schema, and users"
 
-# This is to get around an apparent and not-yet-diagnosed bug in the
-# community postgresql cookbook
-depends "apt", "~> 1.4.8"
+# Reporting folks are doing active development on this cookbook; lock
+# it down until they're done
+depends "opscode-postgresql", "= 0.1.3"
 
-depends "opscode-postgresql"
-depends "opscode-pedant"
-depends "erlang_binary"
+# This is one of the new cookbooks:
+# https://github.com/opscode-cookbooks/opscode-pedant
+depends "opscode-pedant", "~> 0.1.2"
 
+# These come from our infrastructure
+depends "erlang_binary", "~> 0.0.3"
 depends "runit", "0.13.0" # internal fork
-
 depends "perl"
 depends "git"
 depends "python"
