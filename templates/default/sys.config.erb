@@ -69,6 +69,11 @@
           {prepared_statements, {heimdall_db, statements, []} },
           {column_transforms, undefined}
          ]},
+ {stats_hero, [
+                {udp_socket_pool_size, <%= @udp_socket_pool_size %> },
+                {estatsd_host, "<%= @estatsd_host %>" },
+                {estatsd_port, <%= @estatsd_port %> }
+               ]},
  {pooler, [
            {pools, [[{name, "sqerl"},
                      {max_count, <%= @pool_size %> },
@@ -79,6 +84,7 @@
  {heimdall, [
              {ip, "<%= @ip %>" },
              {port, <%= @port %> },
-             {superuser_id, "00000000000000000000000000000000"}
+             {superuser_id, "00000000000000000000000000000000"},
+             {root_metric_key, "heimdall"}
             ]}
 ].

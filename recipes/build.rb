@@ -111,7 +111,12 @@ config_variables = {
   :db_user   => node['oc_heimdall']['database']['users']['owner']['name'],
   :db_pass   => node['oc_heimdall']['database']['users']['owner']['password'],
   :pool_size => node['oc_heimdall']['database']['connection_pool_size'],
-  :log_dir   => node['oc_heimdall']['log_dir']
+  :log_dir   => node['oc_heimdall']['log_dir'],
+  :udp_socket_pool_size => node['oc_heimdall']['stats_hero_udp_socket_pool_size'],
+
+  # TODO: need to get this from search?
+  :estatsd_host => node['stats_hero']['estatsd_host'],
+  :estatsd_port => node['stats_hero']['estatsd_port']
 }
 
 template "#{node[app_name]['etc_dir']}/sys.config" do
