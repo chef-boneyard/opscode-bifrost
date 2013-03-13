@@ -1,5 +1,15 @@
 include_recipe "opscode-postgresql"
 
+################
+# Get the schema
+################
+
+include_recipe "opscode-heimdall::fetch_code"
+
+################
+# Add the roles
+################
+
 node['oc_heimdall']['database']['users'].to_hash.each do |role, user|
   # Note: 'role' here is just the key this user's hash was stored
   # under in the node... we don't care (yet) what that is, we just
