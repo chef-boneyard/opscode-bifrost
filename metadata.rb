@@ -13,6 +13,11 @@ recipe "database", "Creates the heimdall database, schema, and users"
 # it down until they're done
 depends "opscode-postgresql", "= 0.1.3"
 
+# This is the version we currently have in prod / preprod
+#
+# It apparently does not play nicely with Ubuntu 12?
+depends "apt", "= 1.2.2"
+
 # This is one of the new cookbooks:
 # https://github.com/opscode-cookbooks/opscode-pedant
 depends "opscode-pedant", "~> 0.1.2"

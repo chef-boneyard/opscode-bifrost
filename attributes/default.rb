@@ -9,6 +9,8 @@ default['oc-authz-pedant']['revision'] = "master"
 default['oc_heimdall']['host'] = "0.0.0.0"
 default['oc_heimdall']['port'] = 5959
 
+default['oc_heimdall']['stats_hero_udp_socket_pool_size'] = 20
+
 default['oc_heimdall']['database']['name'] = "heimdall"
 
 # These may end up coming from opscode-postgresql?
