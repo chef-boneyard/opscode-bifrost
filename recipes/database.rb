@@ -89,8 +89,15 @@ execute "add_permissions" do
   action :nothing
 end
 
-
-
+# TODO: Not 100% sure exactly why this should be necessary.  The
+# service is available *within* the VM, but not from *outside* until
+# it is restarted (?!)
+#
+# I have been working through several VirtualBox networking issues
+# lately, though, so that may have something to do with it.
+service "postgresql" do
+  action :restart
+end
 
 ################################################################################
 # TODO:
