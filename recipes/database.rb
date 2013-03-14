@@ -1,3 +1,4 @@
+include_recipe "opscode-heimdall::common_directories"
 include_recipe "opscode-postgresql"
 
 ################
