@@ -1,4 +1,15 @@
+include_recipe "opscode-heimdall::common_directories"
 include_recipe "opscode-postgresql"
+
+################
+# Get the schema
+################
+
+include_recipe "opscode-heimdall::fetch_code"
+
+################
+# Add the roles
+################
 
 node['oc_heimdall']['database']['users'].to_hash.each do |role, user|
   # Note: 'role' here is just the key this user's hash was stored
@@ -79,8 +90,15 @@ execute "add_permissions" do
   action :nothing
 end
 
-
-
+# TODO: Not 100% sure exactly why this should be necessary.  The
+# service is available *within* the VM, but not from *outside* until
+# it is restarted (?!)
+#
+# I have been working through several VirtualBox networking issues
+# lately, though, so that may have something to do with it.
+service "postgresql" do
+  action :restart
+end
 
 ################################################################################
 # TODO:
