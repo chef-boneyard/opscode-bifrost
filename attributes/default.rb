@@ -22,6 +22,7 @@ default['postgresql']['config']['port']    = db_port
 default['oc_heimdall']['database']['port'] = db_port
 
 default['oc_heimdall']['database']['connection_pool_size'] = 5
+default['oc_heimdall']['database']['max_connection_pool_size'] = 40
 
 default['oc_heimdall']['database']['users']['owner']['name'] = "heimdall"
 default['oc_heimdall']['database']['users']['owner']['password'] = "challengeaccepted"
