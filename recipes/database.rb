@@ -65,7 +65,7 @@ end
 # (https://github.com/theory/sqitch), from the creator of pgTAP.
 execute "migrate_database" do
   command "psql -d #{database_name} --set ON_ERROR_STOP=1 --single-transaction -f heimdall.sql"
-  cwd "#{node['oc_heimdall']['src_dir']}/schema/sql"
+  cwd "#{node['oc_heimdall']['db_src_dir']}/schema/sql"
   user "postgres"
 
   # Once we're using proper migrations, we can just have this action
@@ -83,7 +83,7 @@ execute "add_permissions" do
          --set database_name=#{database_name} \
          --file permissions.sql
   """
-  cwd "#{node['oc_heimdall']['src_dir']}/schema/sql"
+  cwd "#{node['oc_heimdall']['db_src_dir']}/schema/sql"
   user "postgres"
 
   # Eventually, this will probably just be part of the migration
