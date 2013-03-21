@@ -100,22 +100,31 @@ directory node[app_name]['bin_dir'] do
   mode "0755"
 end
 
+
 # TODO: use common structure for this.. this is currently the ONLY
 # PLACE in this recipe that refers to 'oc_heimdall' specifically
+
+if node['stats_hero'] && node['stats_hero']['estatsd_host']
+  estatsd_host = node['stats_hero']['estatsd_host']
+else
+  estatsd_host = data_bag_item("vips", node[:app_environment])['estatsd_host']
+end
+
 config_variables = {
   :ip        => node['oc_heimdall']['host'],
   :port      => node['oc_heimdall']['port'],
-  :db_host   => node['oc_heimdall']['database']['host'],
+  :db_host   => node['oc_heimdall']['database']['host'] || search(:node, "role:authz-pgsql")[0].ipaddress,
   :db_port   => node['oc_heimdall']['database']['port'],
   :db_name   => node['oc_heimdall']['database']['name'],
   :db_user   => node['oc_heimdall']['database']['users']['owner']['name'],
   :db_pass   => node['oc_heimdall']['database']['users']['owner']['password'],
   :pool_size => node['oc_heimdall']['database']['connection_pool_size'],
+  :max_pool_size => node['oc_heimdall']['database']['max_connection_pool_size'],
   :log_dir   => node['oc_heimdall']['log_dir'],
   :udp_socket_pool_size => node['oc_heimdall']['stats_hero_udp_socket_pool_size'],
 
   # TODO: need to get this from search?
-  :estatsd_host => node['stats_hero']['estatsd_host'],
+  :estatsd_host => estatsd_host,
   :estatsd_port => node['stats_hero']['estatsd_port']
 }
 
