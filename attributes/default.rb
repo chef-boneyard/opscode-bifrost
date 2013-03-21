@@ -10,11 +10,9 @@ default['oc_heimdall']['host'] = "0.0.0.0"
 default['oc_heimdall']['port'] = 5959
 
 default['oc_heimdall']['stats_hero_udp_socket_pool_size'] = 20
+default['stats_hero']['estatsd_port'] = 3344
 
 default['oc_heimdall']['database']['name'] = "heimdall"
-
-# These may end up coming from opscode-postgresql?
-default['oc_heimdall']['database']['host'] = "127.0.0.1"
 
 # I think there's Chef 11 syntax to make this possible without
 # repeating, but I don't think we've got Chef 11 in prod just yet.
@@ -24,6 +22,7 @@ default['postgresql']['config']['port']    = db_port
 default['oc_heimdall']['database']['port'] = db_port
 
 default['oc_heimdall']['database']['connection_pool_size'] = 5
+default['oc_heimdall']['database']['max_connection_pool_size'] = 40
 
 default['oc_heimdall']['database']['users']['owner']['name'] = "heimdall"
 default['oc_heimdall']['database']['users']['owner']['password'] = "challengeaccepted"
