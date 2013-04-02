@@ -1,0 +1,7 @@
+title   "Overall <%= @metric %> Database Response Time"
+area    :none
+vtitle  "ms"
+hide_legend false
+
+field :<%= @metric %>,
+      :data => "stats.timers.<%= @app_name %>.upstreamRequests.rdbms.<%= @metric %>"

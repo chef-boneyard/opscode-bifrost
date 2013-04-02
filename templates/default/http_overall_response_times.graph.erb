@@ -1,0 +1,9 @@
+title       "Overall API Response Times"
+area        :none
+vtitle      "ms"
+description "Aggregated response times as seen by stats.timers.<%= @app_name %>.application.allRequests.*"
+hide_legend false
+
+field :metric,
+      :data => "stats.timers.<%= @app_name %>.application.allRequests.{lower,mean,upper_90,upper}",
+      :alias_by_node => 5

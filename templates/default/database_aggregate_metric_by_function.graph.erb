@@ -1,0 +1,8 @@
+title   "Overall <%= @metric %> Database Response Time by Function"
+area    :none
+vtitle  "ms"
+hide_legend false
+
+field :field,
+      :data => 'stats.timers.<%= @app_name %>.upstreamRequests.rdbms.<%= @app_name %>_db.*.<%= @metric %>',
+      :alias_by_node => 6
