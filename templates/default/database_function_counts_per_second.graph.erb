@@ -1,0 +1,8 @@
+title       "Requests per second for <%= @database_function %>"
+area        :none
+vtitle      "counts / sec"
+description "Calls to <%= @database_function %> times as seen by stats.timers.<%= @app_name %>.upstreamRequests.rdbms.<%= @app_name %>_db.<%= @database_function %>.count, scaled by <%= @scaling_factor %>"
+hide_legend true
+
+field :metric,
+      :data => "scale(stats.timers.<%= @app_name %>.upstreamRequests.rdbms.<%= @app_name %>_db.<%= @database_function %>.count, <%= @scaling_factor %>)"

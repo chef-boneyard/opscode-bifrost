@@ -1,0 +1,9 @@
+title       "Overall Response Times for <%= @database_function %>"
+area        :none
+vtitle      "ms"
+description "Database function response times as seen by stats.timers.<%= @app_name %>.upstreamRequests.rdbms.*"
+hide_legend false
+
+field :metric,
+      :data => "stats.timers.<%= @app_name %>.upstreamRequests.rdbms.<%= @app_name %>_db.<%= @database_function %>.{lower,mean,upper_90,upper}",
+      :alias_by_node => 7

@@ -1,0 +1,26 @@
+title       "Requests Per Second by Request Type"
+area        :none
+hide_legend false
+vtitle      'reqs / sec'
+description "API Requests as seen by stats.timers.<%= @app_name %>.application.byRequestType.*.*.count, scaled by <%= @scaling_factor %>"
+
+# Our metrics have a structure like this:
+#
+#    stats.timers.<%= @app_name %>.application.byRequestType.$REQUEST_TYPE.$HTTP_VERB.count
+#
+# Since these particular counts are cumulative in <%= (1.0 / @scaling_factor) %>
+# second windows (our current smallest granularity in Graphite), we
+# need to scale down by <%= @scaling_factor %> in order to obtain per
+# second rates.  Count metrics in the 'stats.*' hierarchy (not
+# 'stats.timers.*') are automatically rescaled by estatsd into per
+# second rates.
+#
+# We need to group by the request type ("node 5", counting from 0) and
+# sum up all the individual HTTP verb counts.
+#
+# Setting :no_alias to true allows the individual request types to act
+# as the labels; the ':group' field label is ignored.
+
+field :group,
+      :data => 'groupByNode(scale(stats.timers.<%= @app_name %>.application.byRequestType.*.*.count, <%= @scaling_factor %>), 5, "sumSeries"))',
+      :no_alias => true
