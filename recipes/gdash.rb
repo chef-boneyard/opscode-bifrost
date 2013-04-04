@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: opscode-heimdall
+# Cookbook Name:: opscode-bifrost
 # Recipe:: gdash
 #
 # Copyright 2013, Opscode, Inc.
@@ -7,7 +7,7 @@
 # All rights reserved - Do not redistribute
 #
 # This recipe sets up dashboards for Gdash [1] to monitor various
-# operational aspects of Heimdall.  It does NOT set up Gdash,
+# operational aspects of Bifrost.  It does NOT set up Gdash,
 # Graphite, estatsd, or anything else; it merely creates Gdash
 # dashboard files.
 #
@@ -29,7 +29,7 @@
 
 # TODO: I suppose this can go away when we rename to Bifrost
 # officially
-app_name = "heimdall"
+app_name = "bifrost"
 
 # TODO: Clean this up when we move to community gdash
 template_dir = node['gdash']['templatedir'] ||                                       # community cookbook pattern
@@ -56,7 +56,7 @@ scaling_factor = (1.0 / 10)
 gdash_owner = node['gdash']['owner'] || 'www-data'
 gdash_group = node['gdash']['group'] || 'www-data'
 
-# Remove all the Heimdall dashboard files that are currently on the
+# Remove all the Bifrost dashboard files that are currently on the
 # machine; we only want the ones that are defined in this cookbook
 directory dashboard_root do
   action :delete
@@ -81,8 +81,8 @@ end
 
 file "#{dashboard_root}/#{database_dashboard_name}/dash.yaml" do
   content """---
-:name: Overall Heimdall Database
-:description: Heimdall Database Call Metrics
+:name: Overall Bifrost Database
+:description: Bifrost Database Call Metrics
 """
   owner gdash_owner
   group gdash_group
@@ -145,7 +145,7 @@ database_functions = ["acl_membership",
 
 database_functions.each do |database_function|
 
-  database_function_dashboard_directory = "#{dashboard_root}/heimdall_database_#{database_function}"
+  database_function_dashboard_directory = "#{dashboard_root}/bifrost_database_#{database_function}"
 
   directory database_function_dashboard_directory do
     owner gdash_owner
@@ -155,8 +155,8 @@ database_functions.each do |database_function|
 
   file "#{database_function_dashboard_directory}/dash.yaml" do
     content """---
-:name: Heimdall Database '#{database_function}' Function
-:description: Metrics for 'heimdall_db:#{database_function}' Function Calls
+:name: Bifrost Database '#{database_function}' Function
+:description: Metrics for 'bifrost_db:#{database_function}' Function Calls
 """
     owner gdash_owner
     group gdash_group
@@ -204,7 +204,7 @@ end
 
 file "#{dashboard_root}/#{http_dashboard_name}/dash.yaml" do
   content """---
-:name: Overall Heimdall REST API
+:name: Overall Bifrost REST API
 :description: HTTP Metrics
 """
   owner gdash_owner
@@ -239,7 +239,7 @@ request_types = ["actor",
                  "object"]
 
 request_types.each do |request_type|
-  request_type_dashboard_directory = "#{dashboard_root}/heimdall_http_#{request_type}"
+  request_type_dashboard_directory = "#{dashboard_root}/bifrost_http_#{request_type}"
 
   # Make sure there's a place to stick the dashboards
   directory request_type_dashboard_directory do
@@ -251,7 +251,7 @@ request_types.each do |request_type|
   # Create the dashboard file
   file "#{request_type_dashboard_directory}/dash.yaml" do
     content """---
-:name: Heimdall API '#{request_type}' Request Type
+:name: Bifrost API '#{request_type}' Request Type
 :description: HTTP Metrics for '#{request_type}' Requests
 """
     owner gdash_owner

@@ -19,10 +19,10 @@ platforms:
 suites:
 - name: default
   run_list:
-  - recipe[opscode-heimdall]
-  - recipe[opscode-heimdall::test]
+  - recipe[opscode-bifrost]
+  - recipe[opscode-bifrost::test]
   attributes:
-    oc_heimdall:
+    oc_bifrost:
       revision: master
     oc-authz-pedant:
       revision: master

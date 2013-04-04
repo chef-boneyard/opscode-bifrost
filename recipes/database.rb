@@ -1,17 +1,17 @@
-include_recipe "opscode-heimdall::common_directories"
+include_recipe "opscode-bifrost::common_directories"
 include_recipe "opscode-postgresql"
 
 ################
 # Get the schema
 ################
 
-include_recipe "opscode-heimdall::fetch_code"
+include_recipe "opscode-bifrost::fetch_code"
 
 ################
 # Add the roles
 ################
 
-node['oc_heimdall']['database']['users'].to_hash.each do |role, user|
+node['oc_bifrost']['database']['users'].to_hash.each do |role, user|
   # Note: 'role' here is just the key this user's hash was stored
   # under in the node... we don't care (yet) what that is, we just
   # want to create the users.
@@ -37,13 +37,13 @@ node['oc_heimdall']['database']['users'].to_hash.each do |role, user|
 end
 
 # Extract the database name to make things a little less verbose here
-database_name = node['oc_heimdall']['database']['name']
+database_name = node['oc_bifrost']['database']['name']
 
 execute "create_database" do
   command """
     createdb --template template0 \
              --encoding UTF-8 \
-             --owner #{node['oc_heimdall']['database']['users']['owner']['name']} \
+             --owner #{node['oc_bifrost']['database']['users']['owner']['name']} \
              #{database_name}
     """
   user "postgres"
@@ -64,8 +64,8 @@ end
 # will adopt a migration approach.  A front-runner is Sqitch
 # (https://github.com/theory/sqitch), from the creator of pgTAP.
 execute "migrate_database" do
-  command "psql -d #{database_name} --set ON_ERROR_STOP=1 --single-transaction -f heimdall.sql"
-  cwd "#{node['oc_heimdall']['db_src_dir']}/schema/sql"
+  command "psql -d #{database_name} --set ON_ERROR_STOP=1 --single-transaction -f bifrost.sql"
+  cwd "#{node['oc_bifrost']['db_src_dir']}/schema/sql"
   user "postgres"
 
   # Once we're using proper migrations, we can just have this action
@@ -83,7 +83,7 @@ execute "add_permissions" do
          --set database_name=#{database_name} \
          --file permissions.sql
   """
-  cwd "#{node['oc_heimdall']['db_src_dir']}/schema/sql"
+  cwd "#{node['oc_bifrost']['db_src_dir']}/schema/sql"
   user "postgres"
 
   # Eventually, this will probably just be part of the migration
@@ -138,19 +138,19 @@ end
 #                               :username => 'postgres',
 #                               :password => node['postgresql']['password']['postgres']}
 
-# postgresql_database node['oc_heimdall']['database']['name'] do
+# postgresql_database node['oc_bifrost']['database']['name'] do
 #   connection postgresql_connection_info
 #   action :create
 #   template 'DEFAULT'
 #   encoding 'DEFAULT'
-#   owner node['oc_heimdall']['database']['owner']
+#   owner node['oc_bifrost']['database']['owner']
 #   notifies :query, "postgresql_database[install_schema]", :immediately
 # end
 
 # # TODO: IDEMPOTENCE
 # postgresql_database "install_schema" do
 #   connection postgresql_connection_info
-#   database_name node['oc_heimdall']['database']['name']
+#   database_name node['oc_bifrost']['database']['name']
 #   action :nothing
-#   sql { ::File.open("/vagrant/schema/sql/heimdall.sql").read }
+#   sql { ::File.open("/vagrant/schema/sql/bifrost.sql").read }
 # end
