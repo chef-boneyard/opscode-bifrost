@@ -1,13 +1,13 @@
-name             "opscode-heimdall"
+name             "opscode-bifrost"
 maintainer       "Christopher Maier"
 maintainer_email "cm@opscode.com"
 license          "All rights reserved"
-description      "Installs/Configures oc_heimdall, the Opscode Authorization API"
+description      "Installs/Configures oc_bifrost, the Opscode Authorization API"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          "0.2.0"
 
-recipe "opscode-heimdall", "Installs Erlang and rebar (for now)"
-recipe "database", "Creates the heimdall database, schema, and users"
+recipe "opscode-bifrost", "Installs Erlang and rebar (for now)"
+recipe "database", "Creates the bifrost database, schema, and users"
 
 depends "opscode-postgresql", "~> 0.1.6"
 
