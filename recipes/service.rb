@@ -1,5 +1,3 @@
-include_recipe "runit"
-
 link "link_etc_dir_into_srv_dir" do
   to node['oc_bifrost']['etc_dir']
   target_file "#{node['oc_bifrost']['srv_dir']}/etc"
