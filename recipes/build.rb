@@ -1,6 +1,3 @@
-# TODO: pull this up higher
-include_recipe "git"
-
 # Encapsulate the logic for stopping the app service, rebuilding the
 # app, and restarting the service (at the end of the Chef run)
 ruby_block "rebuild_oc_bifrost" do
