@@ -14,4 +14,8 @@ runit_service 'oc_bifrost' do
             # This is for the log-run script
             :log_setuidgid => "nobody"
           })
+  if File.directory?("#{node['runit']['sv_dir']}/oc_bifrost")
+    subscribes :stop, "ruby_block[rebuild_oc_bifrost]", :immediately
+  end
+  subscribes :restart, "ruby_block[rebuild_oc_bifrost]", :delayed
 end
