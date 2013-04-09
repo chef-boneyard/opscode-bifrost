@@ -5,6 +5,10 @@ ruby_block "rebuild_oc_bifrost" do
     Chef::Log.info("Stopping oc_bifrost service (if it exists) and rebuilding")
   end
 
+  if File.directory?("#{node['runit']['sv_dir']}/oc_bifrost")
+    notifies :stop, "service[oc_bifrost]", :immediately
+  end
+
   if node['oc_bifrost']['development_mode']
     # Don't fetch deps again, just rebuild the release; if you add
     # another dep, either manually call 'rebar get-deps', or just
@@ -14,6 +18,7 @@ ruby_block "rebuild_oc_bifrost" do
     notifies :run, "execute[distclean_oc_bifrost]", :immediately
   end
 
+  notifies :restart, "service[oc_bifrost]", :delayed
   action :nothing
 end
 
