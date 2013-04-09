@@ -2,11 +2,11 @@ title       "'<%= @request_type %>' Requests Per Second"
 area        :none
 hide_legend true
 vtitle      'reqs / sec'
-description "API Requests as seen by stats.timers.<%= @app_name %>.application.byRequestType.<%= @request_type %>.*.count, scaled by <%= @scaling_factor %>"
+description "API Requests as seen by stats.timers.oc_bifrost.application.byRequestType.<%= @request_type %>.*.count, scaled by <%= @scaling_factor %>"
 
 # Our metrics have a structure like this:
 #
-#    stats.timers.<%= @app_name %>.application.byRequestType.$REQUEST_TYPE.$HTTP_VERB.count
+#    stats.timers.oc_bifrost.application.byRequestType.$REQUEST_TYPE.$HTTP_VERB.count
 #
 # Since these particular counts are cumulative in <%= (1.0 / @scaling_factor) %>
 # second windows (our current smallest granularity in Graphite), we
@@ -19,5 +19,5 @@ description "API Requests as seen by stats.timers.<%= @app_name %>.application.b
 # sum up all the individual HTTP verb counts.
 #
 field :group,
-      :data => 'scale(sumSeries(stats.timers.<%= @app_name %>.application.byRequestType.<%= @request_type %>.*.count), <%= @scaling_factor %>)',
+      :data => 'scale(sumSeries(stats.timers.oc_bifrost.application.byRequestType.<%= @request_type %>.*.count), <%= @scaling_factor %>)',
       :alias_by_node => 5

@@ -9,5 +9,5 @@ description "Overall counts of database calls broken out by function"
 # seconds" (where N != 1)
 
 field :count,
-      :data => 'scale(stats.timers.<%= @app_name %>.upstreamRequests.rdbms.<%= @app_name %>_db.*.count, <%= @scaling_factor %>)',
+      :data => 'scale(stats.timers.oc_bifrost.upstreamRequests.rdbms.oc_bifrost_db.*.count, <%= @scaling_factor %>)',
       :alias_by_node => 6

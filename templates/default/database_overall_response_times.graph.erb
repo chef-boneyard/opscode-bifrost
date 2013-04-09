@@ -1,9 +1,9 @@
 title       "Overall Database Response Times"
 area        :none
 vtitle      "ms"
-description "Aggregated database call response times as seen by stats.timers.<%= @app_name %>.upstreamRequests.rdbms.*"
+description "Aggregated database call response times as seen by stats.timers.oc_bifrost.upstreamRequests.rdbms.*"
 hide_legend false
 
 field :metric,
-      :data => "stats.timers.<%= @app_name %>.upstreamRequests.rdbms.{lower,mean,upper_90,upper}",
+      :data => "stats.timers.oc_bifrost.upstreamRequests.rdbms.{lower,mean,upper_90,upper}",
       :alias_by_node => 5

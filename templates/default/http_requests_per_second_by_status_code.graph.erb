@@ -2,7 +2,7 @@ title       "Requests Per Second by HTTP Status"
 area        :none
 hide_legend false
 vtitle      'reqs / sec'
-description "API Requests as seen by stats.<%= @app_name %>.application.byStatusCode.*"
+description "API Requests as seen by stats.oc_bifrost.application.byStatusCode.*"
 
 # In contrast to the stats.timers 'count' metrics, the ones in 'stats'
 # (no '.timer') are automatically rescaled to per second frequency by
@@ -14,5 +14,5 @@ description "API Requests as seen by stats.<%= @app_name %>.application.byStatus
 # otherwise crowd the display, we'll filter out codes that don't rise
 # above a given threshold at the end of the graphed time period.
 field :rate,
-      :data => 'currentAbove(stats.<%= @app_name %>.application.byStatusCode.*, 2)',
+      :data => 'currentAbove(stats.oc_bifrost.application.byStatusCode.*, 2)',
       :alias_by_node => 4

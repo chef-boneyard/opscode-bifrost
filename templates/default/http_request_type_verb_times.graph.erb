@@ -4,5 +4,5 @@ vtitle      "ms"
 hide_legend false
 
 field :metric,
-      :data => 'stats.timers.<%= @app_name %>.application.byRequestType.<%= @request_type %>.<%= @verb %>.{lower,mean,upper_90,upper}',
+      :data => 'stats.timers.oc_bifrost.application.byRequestType.<%= @request_type %>.<%= @verb %>.{lower,mean,upper_90,upper}',
       :alias_by_node => 7

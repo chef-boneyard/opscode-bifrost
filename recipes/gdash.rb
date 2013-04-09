@@ -27,10 +27,6 @@
 # [2] https://github.com/heavywater/chef-gdash
 #
 
-# TODO: I suppose this can go away when we rename to Bifrost
-# officially
-app_name = "bifrost"
-
 # TODO: Clean this up when we move to community gdash
 template_dir = node['gdash']['templatedir'] ||                                       # community cookbook pattern
   (node['gdash']['gdash_dir'] && "#{node['gdash']['gdash_dir']}/graph_templates") || # current Opscode cookbook pattern
@@ -38,7 +34,7 @@ template_dir = node['gdash']['templatedir'] ||                                  
 
 # All our dashboards will go here; we'll define it up front for
 # DRY-ness' sake.
-dashboard_root = "#{template_dir}/#{app_name}"
+dashboard_root = "#{template_dir}/oc_bifrost"
 
 # Scaling factor.  Some metrics are per a 10 second window, so we need
 # to scale them back to give us per second metrics.
@@ -92,7 +88,6 @@ end
  "database_requests_per_second_by_function"].each do |graph|
   template "#{dashboard_root}/#{database_dashboard_name}/#{graph}.graph" do
     variables({
-                :app_name => app_name,
                 :scaling_factor => scaling_factor
               })
     owner gdash_owner
@@ -104,7 +99,6 @@ end
   template "#{dashboard_root}/#{database_dashboard_name}/database_aggregate_#{metric}.graph" do
     source "database_aggregate_metric.graph.erb"
     variables({
-                :app_name => app_name,
                 :metric => metric,
                 :scaling_factor => scaling_factor
               })
@@ -115,7 +109,6 @@ end
   template "#{dashboard_root}/#{database_dashboard_name}/database_aggregate_#{metric}_by_function.graph" do
     source "database_aggregate_metric_by_function.graph.erb"
     variables({
-                :app_name => app_name,
                 :metric => metric,
                 :scaling_factor => scaling_factor
               })
@@ -165,7 +158,6 @@ database_functions.each do |database_function|
   template "#{database_function_dashboard_directory}/#{database_function}_times.graph" do
     source "database_function_times.graph.erb"
     variables({
-                :app_name => app_name,
                 :database_function => database_function,
                 :scaling_factor => scaling_factor
               })
@@ -176,7 +168,6 @@ database_functions.each do |database_function|
   template "#{database_function_dashboard_directory}/#{database_function}_counts_per_second.graph" do
     source "database_function_counts_per_second.graph.erb"
     variables({
-                :app_name => app_name,
                 :database_function => database_function,
                 :scaling_factor => scaling_factor
               })
@@ -217,7 +208,6 @@ end
  "http_overall_response_times"].each do |graph|
   template "#{dashboard_root}/#{http_dashboard_name}/#{graph}.graph" do
     variables({
-                :app_name => app_name,
                 :scaling_factor => scaling_factor
               })
     owner gdash_owner
@@ -264,7 +254,6 @@ request_types.each do |request_type|
     template "#{request_type_dashboard_directory}/#{request_type}_#{verb.downcase}_times.graph" do
       source "http_request_type_verb_times.graph.erb"
       variables({
-                  :app_name => app_name,
                   :request_type => request_type,
                   :verb => verb
                 })
@@ -276,7 +265,6 @@ request_types.each do |request_type|
   template "#{request_type_dashboard_directory}/#{request_type}_counts_per_second.graph" do
     source "http_request_type_counts_per_second.graph.erb"
     variables({
-                :app_name => app_name,
                 :request_type => request_type,
                 :scaling_factor => scaling_factor
               })

@@ -2,7 +2,7 @@ title       "Requests Per Second"
 area        :none
 hide_legend true
 vtitle      'reqs / sec'
-description "API Requests as seen by stats.<%= @app_name %>.application.allRequests"
+description "API Requests as seen by stats.oc_bifrost.application.allRequests"
 
 # In contrast to the stats.timers 'count' metrics, the ones in 'stats'
 # (no '.timer') are automatically rescaled to per second frequency by
@@ -10,7 +10,7 @@ description "API Requests as seen by stats.<%= @app_name %>.application.allReque
 # requests_per_second_by_endpoint.graph)
 
 field :rate,
-      :data => 'stats.<%= @app_name %>.application.allRequests'
+      :data => 'stats.oc_bifrost.application.allRequests'
 
 # Alternatively, we can use the stats_counts.* version of the metric,
 # which is stored at a reduced resolution.  However, it is NOT scaled
@@ -19,4 +19,4 @@ field :rate,
 # I'm opting for keeping the higher-resolution data.
 #
 # field :rate,
-#       :data => 'scale(stats_counts.<%= @app_name %>.application.allRequests, <%= @scaling_factor %>)'
+#       :data => 'scale(stats_counts.oc_bifrost.application.allRequests, <%= @scaling_factor %>)'
