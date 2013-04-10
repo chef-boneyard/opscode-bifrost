@@ -26,9 +26,8 @@ else
   db_port = node['oc_bifrost']['database']['port']
 end
 
-# TODO remove srv_dir and log_dir options (private chef uses dir and log_directory)
-service_dir = bifrost_config['dir'] || bifrost_config['srv_dir']
-log_dir = bifrost_config['log_directory'] || bifrost_config['log_dir']
+service_dir = bifrost_config['srv_dir']
+log_dir = bifrost_config['log_dir']
 
 #
 # Ensure service directories exist
