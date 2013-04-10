@@ -74,7 +74,7 @@ end
 # Currently this just does an install from scratch.  Eventually we
 # will adopt a migration approach.  A front-runner is Sqitch
 # (https://github.com/theory/sqitch), from the creator of pgTAP.
-execute "migrate_database" do
+execute "migrate_database_#{database_name}" do
   command "psql -d #{database_name} --set ON_ERROR_STOP=1 --single-transaction -f bifrost.sql"
   cwd "#{schema_dir}/sql"
   user db_root_user
@@ -86,7 +86,7 @@ execute "migrate_database" do
 end
 
 # Permissions for the database users got set in the schema... though that means that the role names should be hard-coded in this cookbook.
-execute "add_permissions" do
+execute "add_permissions_#{database_name}" do
   command """
     psql --dbname #{database_name} \
          --single-transaction \
