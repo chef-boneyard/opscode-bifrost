@@ -1,6 +1,6 @@
 if default['private_chef']
   bifrost_default = default['private_chef']['oc_bifrost']
-  bifrost_default['srv_dir'] = "/var/opt/opscode/oc_bifrost"
+  bifrost_default['srv_dir'] = "/opt/opscode/embedded/service/oc_bifrost"
   bifrost_default['log_dir'] = "/var/log/opscode/oc_bifrost"
   bifrost_default['enable'] = true
   bifrost_default['ha'] = false
