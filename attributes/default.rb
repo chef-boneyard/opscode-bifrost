@@ -23,7 +23,7 @@ end
 # The Git commit / tag / branch you want to check out and build from
 bifrost_default['revision'] = "master"
 bifrost_default['host'] = "0.0.0.0"
-bifrost_default['port'] = 5960
+bifrost_default['port'] = 9463
 bifrost_default['stats_hero_udp_socket_pool_size'] = 20
 bifrost_default['database']['name'] = "bifrost"
 
