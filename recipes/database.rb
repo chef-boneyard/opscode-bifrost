@@ -64,8 +64,8 @@ execute "create_database_#{database_name}" do
          --command \"SELECT datname FROM pg_database WHERE datname='#{database_name}';\" \
     | grep #{database_name}
     """, :user => "postgres"
-  notifies :run, "execute[migrate_database]", :immediately
-  notifies :run, "execute[add_permissions]", :immediately
+  notifies :run, "execute[migrate_database_#{database_name}]", :immediately
+  notifies :run, "execute[add_permissions_#{database_name}]", :immediately
 end
 
 # TODO: Properly grant permissions for the different users
