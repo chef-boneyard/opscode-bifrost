@@ -152,6 +152,7 @@ end
 if node['private_chef']
   # Bootstrap me
   if node['private_chef']['bootstrap']['enable']
+    include_recipe 'opscode-bifrost::database'
     execute "/opt/opscode/bin/private-chef-ctl start oc_bifrost" do
       retries 20
     end

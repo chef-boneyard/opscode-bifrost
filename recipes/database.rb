@@ -1,17 +1,26 @@
-include_recipe "opscode-bifrost::common_directories"
-include_recipe "opscode-postgresql"
+if node['private_chef']
+  # TODO there must be some variable that points at /opt/opscode
+  schema_dir = '/opt/opscode/embedded/service/oc_bifrost_sql_schema'
+  bifrost_config = node['private_chef']['oc_bifrost']
+else
+  include_recipe "opscode-bifrost::common_directories"
+  include_recipe "opscode-postgresql"
 
-################
-# Get the schema
-################
+  ################
+  # Get the schema
+  ################
 
-include_recipe "opscode-bifrost::fetch_code"
+  include_recipe "opscode-bifrost::fetch_code"
+
+  schema_dir = "#{node['oc_bifrost']['db_src_dir']}/schema"
+  bifrost_config = node['oc_bifrost']
+end
 
 ################
 # Add the roles
 ################
 
-node['oc_bifrost']['database']['users'].to_hash.each do |role, user|
+bifrost_config['database']['users'].to_hash.each do |role, user|
   # Note: 'role' here is just the key this user's hash was stored
   # under in the node... we don't care (yet) what that is, we just
   # want to create the users.
@@ -37,13 +46,13 @@ node['oc_bifrost']['database']['users'].to_hash.each do |role, user|
 end
 
 # Extract the database name to make things a little less verbose here
-database_name = node['oc_bifrost']['database']['name']
+database_name = bifrost_config['database']['name']
 
 execute "create_database" do
   command """
     createdb --template template0 \
              --encoding UTF-8 \
-             --owner #{node['oc_bifrost']['database']['users']['owner']['name']} \
+             --owner #{bifrost_config['users']['owner']['name']} \
              #{database_name}
     """
   user "postgres"
@@ -65,7 +74,7 @@ end
 # (https://github.com/theory/sqitch), from the creator of pgTAP.
 execute "migrate_database" do
   command "psql -d #{database_name} --set ON_ERROR_STOP=1 --single-transaction -f bifrost.sql"
-  cwd "#{node['oc_bifrost']['db_src_dir']}/schema/sql"
+  cwd "#{schema_dir}/sql"
   user "postgres"
 
   # Once we're using proper migrations, we can just have this action
@@ -83,7 +92,7 @@ execute "add_permissions" do
          --set database_name=#{database_name} \
          --file permissions.sql
   """
-  cwd "#{node['oc_bifrost']['db_src_dir']}/schema/sql"
+  cwd "#{schema_dir}/sql"
   user "postgres"
 
   # Eventually, this will probably just be part of the migration
