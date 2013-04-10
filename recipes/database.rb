@@ -2,6 +2,7 @@ if node['private_chef']
   # TODO there must be some variable that points at /opt/opscode
   schema_dir = '/opt/opscode/embedded/service/oc_bifrost_sql_schema'
   bifrost_config = node['private_chef']['oc_bifrost']
+  db_root_user = node['private_chef']['postgresql']['username']
 else
   include_recipe "opscode-bifrost::common_directories"
   include_recipe "opscode-postgresql"
@@ -14,6 +15,7 @@ else
 
   schema_dir = "#{node['oc_bifrost']['db_src_dir']}/schema"
   bifrost_config = node['oc_bifrost']
+  db_root_user = 'postgres'
 end
 
 ################
@@ -35,7 +37,7 @@ bifrost_config['database']['users'].to_hash.each do |role, user|
                        WITH LOGIN
                             ENCRYPTED PASSWORD '#{password}'\"
       """
-    user "postgres"
+    user db_root_user
     not_if """
       psql --dbname template1 \
            --tuples-only \
@@ -48,14 +50,14 @@ end
 # Extract the database name to make things a little less verbose here
 database_name = bifrost_config['database']['name']
 
-execute "create_database" do
+execute "create_database_#{database_name}" do
   command """
     createdb --template template0 \
              --encoding UTF-8 \
-             --owner #{bifrost_config['users']['owner']['name']} \
+             --owner #{bifrost_config['database']['users']['owner']['name']} \
              #{database_name}
     """
-  user "postgres"
+  user db_root_user
   not_if """
     psql --dbname template1 \
          --tuples-only \
@@ -75,7 +77,7 @@ end
 execute "migrate_database" do
   command "psql -d #{database_name} --set ON_ERROR_STOP=1 --single-transaction -f bifrost.sql"
   cwd "#{schema_dir}/sql"
-  user "postgres"
+  user db_root_user
 
   # Once we're using proper migrations, we can just have this action
   # execute automatically, instead of being triggered only when a new
@@ -93,7 +95,7 @@ execute "add_permissions" do
          --file permissions.sql
   """
   cwd "#{schema_dir}/sql"
-  user "postgres"
+  user db_root_user
 
   # Eventually, this will probably just be part of the migration
   action :nothing
