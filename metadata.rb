@@ -9,7 +9,7 @@ version          "0.2.0"
 recipe "opscode-bifrost", "Installs Erlang and rebar (for now)"
 recipe "database", "Creates the bifrost database, schema, and users"
 
-depends "opscode-postgresql", "~> 0.1.6"
+depends "opscode-postgresql", "~> 0.2.6"
 
 # This is the version we currently have in prod / preprod
 #
