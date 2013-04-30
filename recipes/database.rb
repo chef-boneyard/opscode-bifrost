@@ -11,6 +11,13 @@ include_recipe "opscode-bifrost::fetch_code"
 # Add the roles
 ################
 
+# NOTE: In the following resources, the conditional checks for the
+# existence of the PostgreSQL PID file are proxies for whether the
+# server is running or not.  If it is not running, we assume that
+# we're on the inactive member of the HA pair, and so we shouldn't be
+# doing things like creating roles, etc. which require a live
+# database.
+
 node['oc_bifrost']['database']['users'].to_hash.each do |role, user|
   # Note: 'role' here is just the key this user's hash was stored
   # under in the node... we don't care (yet) what that is, we just
@@ -27,6 +34,7 @@ node['oc_bifrost']['database']['users'].to_hash.each do |role, user|
                             ENCRYPTED PASSWORD '#{password}'\"
       """
     user "postgres"
+    only_if { File.exist?(node['postgresql']['config']['external_pid_file']) }
     not_if """
       psql --dbname template1 \
            --tuples-only \
@@ -47,6 +55,7 @@ execute "create_database" do
              #{database_name}
     """
   user "postgres"
+  only_if { File.exist?(node['postgresql']['config']['external_pid_file']) }
   not_if """
     psql --dbname template1 \
          --tuples-only \
@@ -68,6 +77,7 @@ execute "migrate_database" do
   cwd "#{node['oc_bifrost']['db_src_dir']}/schema/sql"
   user "postgres"
 
+  only_if { File.exist?(node['postgresql']['config']['external_pid_file']) }
   # Once we're using proper migrations, we can just have this action
   # execute automatically, instead of being triggered only when a new
   # database is created
@@ -86,6 +96,7 @@ execute "add_permissions" do
   cwd "#{node['oc_bifrost']['db_src_dir']}/schema/sql"
   user "postgres"
 
+  only_if { File.exist?(node['postgresql']['config']['external_pid_file']) }
   # Eventually, this will probably just be part of the migration
   action :nothing
 end
