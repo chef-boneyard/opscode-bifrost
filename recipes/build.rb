@@ -113,7 +113,7 @@ end
 config_variables = {
   :ip        => node['oc_bifrost']['host'],
   :port      => node['oc_bifrost']['port'],
-  :db_host   => node['oc_bifrost']['database']['host'] || search(:node, "role:authz-pgsql")[0].ipaddress,
+  :db_host   => node['oc_bifrost']['database']['host'] || search(:node, "role:bifrost-pgsql")[0].ipaddress,
   :db_port   => node['oc_bifrost']['database']['port'],
   :db_name   => node['oc_bifrost']['database']['name'],
   :db_user   => node['oc_bifrost']['database']['users']['owner']['name'],
