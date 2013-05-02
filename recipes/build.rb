@@ -52,6 +52,13 @@ else
 end
 
 execute "distclean_#{app_name}" do
+  # erlexec needs HOME env var to be set. If it's not set, it errors out.
+  # This seems to happen when chef-client runs daemonized.
+  unless ENV['HOME']
+    Chef::Log.info("HOME is not set. Setting to /root.")
+    environment({'HOME' => '/root'})
+  end
+
   command "make distclean"
   cwd node[app_name]['src_dir']
   notifies :run, "execute[rel_#{app_name}]", :immediately
@@ -59,6 +66,13 @@ execute "distclean_#{app_name}" do
 end
 
 execute "rel_#{app_name}" do
+  # erlexec needs HOME env var to be set. If it's not set, it errors out.
+  # This seems to happen when chef-client runs daemonized.
+  unless ENV['HOME']
+    Chef::Log.info("HOME is not set. Setting to /root.")
+    environment({'HOME' => '/root'})
+  end
+
   command "make relclean rel"
   cwd node[app_name]['src_dir']
   action :nothing
