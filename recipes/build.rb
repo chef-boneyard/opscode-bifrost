@@ -104,16 +104,30 @@ end
 # TODO: use common structure for this.. this is currently the ONLY
 # PLACE in this recipe that refers to 'oc_bifrost' specifically
 
+vips = data_bag_item("vips", node[:app_environment])
+
 if node['stats_hero'] && node['stats_hero']['estatsd_host']
   estatsd_host = node['stats_hero']['estatsd_host']
 else
-  estatsd_host = data_bag_item("vips", node[:app_environment])['estatsd_host']
+  estatsd_host = vips['estatsd_host']
+end
+
+# DB host is 1) node override or 2) VIP or 3) role query
+db_host = if node[app_name]['database']['host']
+  Chef::Log.info("Using node attribute for #{app_name} DB host")
+  node[app_name]['database']['host']
+elsif vips["bifrost_pgsql_ip"]
+  Chef::Log.info("Using VIP for #{app_name} DB host")
+  vips["bifrost_pgsql_ip"]
+else
+  Chef::Log.info("Using role for #{app_name} DB host")
+  search(:node, "role:bifrost-pgsql")[0].ipaddress
 end
 
 config_variables = {
   :ip        => node['oc_bifrost']['host'],
   :port      => node['oc_bifrost']['port'],
-  :db_host   => node['oc_bifrost']['database']['host'] || search(:node, "role:bifrost-pgsql")[0].ipaddress,
+  :db_host   => db_host,
   :db_port   => node['oc_bifrost']['database']['port'],
   :db_name   => node['oc_bifrost']['database']['name'],
   :db_user   => node['oc_bifrost']['database']['users']['owner']['name'],
