@@ -17,7 +17,9 @@
 # the dashboards that monitor it.
 #
 # To use this recipe as it was intended, include it in the run list of
-# your Gdash server nodes.
+# your Gdash server nodes. After the first CCR, make sure to restart apache
+# for changes to take effect. e.g. sudo /etc/init.d/apache2 restart
+# Subsequent updates normally do not require a restart.
 #
 # NOTE: When / if we begin using the community gdash cookbook [2], I'd
 # like to use its LWRPs instead of separate template files.  That would
