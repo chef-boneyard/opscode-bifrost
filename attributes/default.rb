@@ -2,7 +2,7 @@ default['app_name'] = "oc_bifrost"
 
 
 # The Git commit / tag / branch you want to check out and build from
-default['oc_bifrost']['revision'] = "master"
+default['oc_bifrost']['revision'] = "1.1.0"
 
 default['oc-authz-pedant']['revision'] = "master"
 
