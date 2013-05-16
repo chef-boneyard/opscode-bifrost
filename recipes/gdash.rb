@@ -215,12 +215,24 @@ end
 
 ["http_requests_per_second",
  "http_requests_per_second_by_request_type",
- "http_requests_per_second_by_status_code",
- "http_overall_response_times"].each do |graph|
+ "http_requests_per_second_by_status_code"].each do |graph|
   template "#{dashboard_root}/#{http_dashboard_name}/#{graph}.graph" do
     variables({
                 :app_name => app_name,
                 :scaling_factor => scaling_factor
+              })
+    owner gdash_owner
+    group gdash_group
+  end
+end
+
+{"most" => "{lower,mean,upper_90}", "upper" => "upper"}.each do |label, metrics|
+  template "#{dashboard_root}/#{http_dashboard_name}/http_overall_response_times_#{label}.graph" do
+    source "http_overall_response_times.graph.erb"
+    variables({
+                :app_name => app_name,
+                :scaling_factor => scaling_factor,
+                :metrics => metrics
               })
     owner gdash_owner
     group gdash_group
