@@ -138,9 +138,14 @@ else
   search(:node, "role:bifrost-pgsql")[0].ipaddress
 end
 
+# superuser ID is in the environments databag
+env = data_bag_item("environments", node[:app_environment])
+superuser_id = env['opscode-authz-superuser-id']
+
 config_variables = {
   :ip        => node['oc_bifrost']['host'],
   :port      => node['oc_bifrost']['port'],
+  :superuser_id => superuser_id,
   :db_host   => db_host,
   :db_port   => node['oc_bifrost']['database']['port'],
   :db_name   => node['oc_bifrost']['database']['name'],
