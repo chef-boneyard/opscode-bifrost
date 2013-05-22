@@ -38,7 +38,12 @@
                                             {level, info},
                                             {size,10485760},
                                             {date, "$D0"},
-                                            {count,5}
+                                            {count,5},
+                                            %% Removes the logging source, since currently
+                                            %% there's only one place in all of Bifrost that
+                                            %% we log from.  Also removes the PID from
+                                            %% the default message format.
+                                            {formatter_config, [date, " ", time, " [", severity, "] ", message, "\n"]}
                                            ]}
                      ]},
 
