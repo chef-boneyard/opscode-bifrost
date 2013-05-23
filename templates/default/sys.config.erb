@@ -29,9 +29,9 @@
                       {lager_file_backend, [
                                             {file, "<%= File.join(@log_dir, 'error.log') %>"},
                                             {level, error},
-                                            {size, 10485760},
+                                            {size, <%= @error_log_size %>},
                                             {date, "$D0"},
-                                            {count, 5}
+                                            {count, <%= @error_log_count %>}
                                            ]},
                       {lager_file_backend, [
                                             {file, "<%= File.join(@log_dir, 'console.log') %>"},
