@@ -37,6 +37,20 @@ Attributes
   that need to safely explore and debug the database.
 * `node['oc_bifrost']['database']['users']['read_only']['password']`
   - The password for the read-only database user.
+* `node['oc_bifrost']['console_log_size']` -
+  The maximum size (in bytes) that each console.log file can reach
+  before being rotated.  This is where each request (whose HTTP
+  response status is less than 500) is logged, so larger is better.
+  Defaults to 400MB.
+* `node['oc_bifrost']['console_log_count']` -
+  The number of rotated `console.log` files to keep.  Defaults to 5.
+* `node['oc_bifrost']['error_log_size']` -
+  The maximum size (in bytes) that each error.log file can reach
+  before being rotated.  This is where each request (whose HTTP
+  response status is 500 or greater) is logged.
+  Defaults to 20MB.
+* `node['oc_bifrost']['error_log_size']` -
+  The number of rotated `error.log` files to keep.  Defaults to 5.
 
 Recipes
 =======
