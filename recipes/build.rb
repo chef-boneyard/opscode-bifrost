@@ -139,18 +139,18 @@ else
 end
 
 config_variables = {
-  :ip        => node['oc_bifrost']['host'],
-  :port      => node['oc_bifrost']['port'],
-  :console_log_size => node['oc_bifrost']['console_log_size'],
-  :console_log_count => node['oc_bifrost']['console_log_count'],
-  :db_host   => db_host,
-  :db_port   => node['oc_bifrost']['database']['port'],
-  :db_name   => node['oc_bifrost']['database']['name'],
-  :db_user   => node['oc_bifrost']['database']['users']['owner']['name'],
-  :db_pass   => node['oc_bifrost']['database']['users']['owner']['password'],
-  :pool_size => node['oc_bifrost']['database']['connection_pool_size'],
-  :max_pool_size => node['oc_bifrost']['database']['max_connection_pool_size'],
-  :log_dir   => node['oc_bifrost']['log_dir'],
+  :ip                   => node['oc_bifrost']['host'],
+  :port                 => node['oc_bifrost']['port'],
+  :console_log_size     => node['oc_bifrost']['console_log_size'],
+  :console_log_count    => node['oc_bifrost']['console_log_count'],
+  :db_host              => db_host,
+  :db_port              => node['oc_bifrost']['database']['port'],
+  :db_name              => node['oc_bifrost']['database']['name'],
+  :db_user              => node['oc_bifrost']['database']['users']['owner']['name'],
+  :db_pass              => node['oc_bifrost']['database']['users']['owner']['password'],
+  :pool_size            => node['oc_bifrost']['database']['connection_pool_size'],
+  :max_pool_size        => node['oc_bifrost']['database']['max_connection_pool_size'],
+  :log_dir              => node['oc_bifrost']['log_dir'],
   :udp_socket_pool_size => node['oc_bifrost']['stats_hero_udp_socket_pool_size'],
 
   # TODO: need to get this from search?
