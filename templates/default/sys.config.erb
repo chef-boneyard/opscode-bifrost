@@ -68,7 +68,13 @@
           {crash_log_count, 5},
 
           %% Whether to redirect error_logger messages into lager - defaults to true
-          {error_logger_redirect, true}
+          {error_logger_redirect, true},
+
+          %% Bump up the "high-water mark" (default 50), which is the
+          %% number of messages per second allowed to come from
+          %% error_logger.  This is the same as used by
+          %% opscode-chef-mover, FWIW.
+          {error_logger_hwm, 1000}
          ]},
  {webmachine, [
                {webmachine_logger_module, bifrost_request_logger}
