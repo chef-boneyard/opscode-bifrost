@@ -10,7 +10,7 @@
          {sasl_error_logger, {file, "<%= File.join(@log_dir, 'sasl-error.log') %>"}},
          {errlog_type, error},
          {error_logger_mf_dir, "<%= File.join(@log_dir, 'sasl') %>"},      % Log directory
-         {error_logger_mf_maxbytes, 104857600},   % 10 MB max file size
+         {error_logger_mf_maxbytes, 104857600},   % 100 MB max file size
          {error_logger_mf_maxfiles, 5}           % 5 files max
         ]},
  {lager, [
