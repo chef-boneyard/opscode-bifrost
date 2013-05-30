@@ -38,19 +38,28 @@ Attributes
 * `node['oc_bifrost']['database']['users']['read_only']['password']`
   - The password for the read-only database user.
 * `node['oc_bifrost']['console_log_size']` -
-  The maximum size (in bytes) that each console.log file can reach
-  before being rotated.  This is where each request (whose HTTP
-  response status is less than 500) is logged, so larger is better.
-  Defaults to 400MB.
+  The target size beyond which the console.log file will be targeted for
+  rotation.  This is where each request (whose HTTP response status is
+  less than 500) is logged, so larger is better.  Defaults to 400 MB.
+  Acceptable values can be anything that logrotate accepts (e.g.,
+  1024, 1k, 1M, 1G).
 * `node['oc_bifrost']['console_log_count']` -
   The number of rotated `console.log` files to keep.  Defaults to 5.
 * `node['oc_bifrost']['error_log_size']` -
-  The maximum size (in bytes) that each error.log file can reach
-  before being rotated.  This is where each request (whose HTTP
-  response status is 500 or greater) is logged.
-  Defaults to 20MB.
+  The target size beyond which the error.log file will be targeted for
+  rotation.  This is where each request (whose HTTP response status is
+  500 or greater) is logged.  Defaults to 20 MB. Acceptable values can
+  be anything that logrotate accepts (e.g., 1024, 1k, 1M, 1G)
 * `node['oc_bifrost']['error_log_size']` -
   The number of rotated `error.log` files to keep.  Defaults to 5.
+
+Note that it is possible that the actual size of a log file may exceed
+the specified log size.  This is because logrotate is not a daemon,
+and thus must be run periodically by cron.  We run logrotate hourly,
+though, so a log file will not accumulate more than an additional
+hours-worthl logging statements before being rotated.  Keep this fact
+as well as the expected load of the system in mind when setting log
+rotation policy.
 
 Recipes
 =======
