@@ -57,7 +57,7 @@ Note that it is possible that the actual size of a log file may exceed
 the specified log size.  This is because logrotate is not a daemon,
 and thus must be run periodically by cron.  We run logrotate hourly,
 though, so a log file will not accumulate more than an additional
-hours-worthl logging statements before being rotated.  Keep this fact
+hours-worth logging statements before being rotated.  Keep this fact
 as well as the expected load of the system in mind when setting log
 rotation policy.
 
