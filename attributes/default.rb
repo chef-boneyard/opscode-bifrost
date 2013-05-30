@@ -14,10 +14,10 @@ default['oc_bifrost']['port'] = 5959
 default['oc_bifrost']['superuser_id'] = '00000000000000000000000000000000'
 
 # Bifrost is currently rather chatty: default to ~2G of logs on the box
-default['oc_bifrost']['console_log_size']  = (1024 * 1024 * 400) # 400 MB (measured in bytes)
+default['oc_bifrost']['console_log_size']  = "400M" # logrotate syntax
 default['oc_bifrost']['console_log_count'] = 5
 # Keep ~100 MB of error logs
-default['oc_bifrost']['error_log_size']  = (1024 * 1024 * 20) # 20 MB (measured in bytes)
+default['oc_bifrost']['error_log_size']  = "20M" # logrotate syntax
 default['oc_bifrost']['error_log_count'] = 5
 
 default['oc_bifrost']['stats_hero_udp_socket_pool_size'] = 20
