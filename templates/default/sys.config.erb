@@ -28,17 +28,11 @@
                       {lager_console_backend, error},
                       {lager_file_backend, [
                                             {file, "<%= File.join(@log_dir, 'error.log') %>"},
-                                            {level, error},
-                                            {size, <%= @error_log_size %>},
-                                            {date, "$D0"},
-                                            {count, <%= @error_log_count %>}
+                                            {level, error}
                                            ]},
                       {lager_file_backend, [
                                             {file, "<%= File.join(@log_dir, 'console.log') %>"},
                                             {level, info},
-                                            {size, <%= @console_log_size %>},
-                                            {date, "$D0"},
-                                            {count, <%= @console_log_count %>},
                                             %% Removes the logging source, since currently
                                             %% there's only one place in all of Bifrost that
                                             %% we log from.  Also removes the PID from
