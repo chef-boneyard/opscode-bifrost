@@ -28,8 +28,8 @@ db_port = 5432
 default['postgresql']['config']['port']    = db_port
 default['oc_bifrost']['database']['port'] = db_port
 
-default['oc_bifrost']['database']['connection_pool_size'] = 5
-default['oc_bifrost']['database']['max_connection_pool_size'] = 40
+default['oc_bifrost']['database']['connection_pool_size']     = 100
+default['oc_bifrost']['database']['max_connection_pool_size'] = 100
 
 default['oc_bifrost']['database']['users']['owner']['name'] = "bifrost"
 default['oc_bifrost']['database']['users']['owner']['password'] = "challengeaccepted"
