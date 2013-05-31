@@ -214,7 +214,7 @@ file "#{dashboard_root}/#{http_dashboard_name}/dash.yaml" do
 end
 
 ["http_requests_per_second",
- "http_requests_per_second_by_request_type",
+ "http_requests_per_second_by_module",
  "http_requests_per_second_by_status_code"].each do |graph|
   template "#{dashboard_root}/#{http_dashboard_name}/#{graph}.graph" do
     variables({
