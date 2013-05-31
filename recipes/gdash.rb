@@ -226,17 +226,17 @@ end
   end
 end
 
-{"most" => "{lower,mean,upper_90}", "upper" => "upper"}.each do |label, metrics|
-  template "#{dashboard_root}/#{http_dashboard_name}/http_overall_response_times_#{label}.graph" do
-    source "http_overall_response_times.graph.erb"
-    variables({
-                :app_name => app_name,
-                :scaling_factor => scaling_factor,
-                :metrics => metrics
-              })
-    owner gdash_owner
-    group gdash_group
-  end
+# Here we display lower, mean, and upper_90 response time metrics on
+# one graph.  We don't add 'upper' because it currently swamps the
+# rest of them, making a graph with all of them borderline useless.
+template "#{dashboard_root}/#{http_dashboard_name}/http_overall_response_times.graph" do
+  variables({
+              :app_name => app_name,
+              :scaling_factor => scaling_factor,
+              :metrics => "{lower,mean,upper_90}"
+            })
+  owner gdash_owner
+  group gdash_group
 end
 
 # Individual lower, mean, upper_XX, upper graphs.  Having them all on
