@@ -26,3 +26,6 @@ depends "runit", "0.13.0" # internal fork
 depends "perl"
 depends "git"
 depends "python"
+depends "deployment-notifications", "~> 0.1.0"
+depends "opscode_extensions", "~> 1.0.2"
+depends "build-essential" # for s3 artifacts
