@@ -239,6 +239,21 @@ end
   end
 end
 
+# Individual lower, mean, upper_XX, upper graphs.  Having them all on
+# the same graph can be problematic if one (say, 'upper') completely
+# drowns out all the others.
+["lower", "mean", "upper_90", "upper"].each do |metric|
+  template "#{dashboard_root}/#{http_dashboard_name}/http_#{metric}_response_times.graph" do
+    source "http_individual_metric_response_times.graph.erb"
+    variables({
+                :app_name => app_name,
+                :metric => metric
+              })
+    owner gdash_owner
+    group gdash_group
+  end
+end
+
 # end "overall http dashboard"
 
 # Create dedicated dashboards for each request type
