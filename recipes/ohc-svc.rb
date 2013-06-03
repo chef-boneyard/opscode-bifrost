@@ -28,4 +28,9 @@ end
 env = data_bag_item("environments", node[:app_environment])
 node[app]['superuser_id'] = env['opscode-authz-superuser-id']
 
+# DB passwords are in the secrets data bag.
+secrets = data_bag_item("secrets", node[:app_environment])
+node[app]['database']['users']['owner']['password'] = secrets[app]['db_rw_password']
+node[app]['database']['users']['read_only']['password'] = secrets[app]['db_ro_password']
+
 include_recipe "opscode-bifrost::api_server"
