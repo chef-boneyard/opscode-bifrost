@@ -270,16 +270,14 @@ end
 
 # Create dedicated dashboards for each request type
 
-modules = [
-           "bifrost_wm_acl_action_resource",
-           "bifrost_wm_acl_member_resource",
-           "bifrost_wm_acl_resource",
-           "bifrost_wm_actors_resource",
-           "bifrost_wm_group_member_resource",
-           "bifrost_wm_named_resources",   # <-- TODO: That should be singular
-           "bifrost_wm_unnamed_resources"  # <-- TODO: That should be singular
-          ]
-
+# The metrics have a structure like this:
+#
+#   stats.bifrost.application.byRequestType.MODULE_NAME.ENTITY_TYPE.etc...
+#
+# We can grab the list of modules dynamically by querying the Whisper
+# DB files on disk, instead of hard-coding them here.
+modules = Bifrost::WhisperDB.next_level_metrics("stats.#{app_name}.application.byRequestType",
+                                                whisper_dir)
 modules.each do |mod|
   request_type_dashboard_directory = "#{dashboard_root}/bifrost_http_#{mod}"
 
