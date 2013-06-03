@@ -38,6 +38,18 @@ template_dir = node['gdash']['templatedir'] ||                                  
   (node['gdash']['gdash_dir'] && "#{node['gdash']['gdash_dir']}/graph_templates") || # current Opscode cookbook pattern
   raise("Unknown template directory!")                                               # The cookbook is busted
 
+# TODO: Currently our storage directory is hard-coded in the
+# graphite/templates/default/carbon.conf.erb template.  The Community
+# cookbook from Heavywater (https://github.com/hw-cookbooks/graphite)
+# uses an attribute, though (for at least part of the path in
+# question).
+#
+# We'll rely on an attribute (that we don't set in our infrastructure
+# just yet) and fall back to what our current directory is.  That
+# should make this pretty future-proof.
+graphite_storage_dir = node['graphite']['storage_dir'] || "/opt/graphite/storage"
+whisper_dir = "#{graphite_storage_dir}/whisper"
+
 # All our dashboards will go here; we'll define it up front for
 # DRY-ness' sake.
 dashboard_root = "#{template_dir}/#{app_name}"
@@ -258,15 +270,6 @@ end
 
 # Create dedicated dashboards for each request type
 
-# TODO: grab the names of the "types" from the whisper database files
-# on disk.  This has the advantage of being all nice and dynamic, but
-# has the downside of requiring metrics to be there first.  Running a
-# second time would pick things up.
-request_types = ["actor",
-                 "container",
-                 "group",
-                 "object"]
-
 modules = [
            "bifrost_wm_acl_action_resource",
            "bifrost_wm_acl_member_resource",
@@ -308,29 +311,43 @@ modules.each do |mod|
     group gdash_group
   end
 
-  # TODO: Not all modules accept all types... query the whisper files to figure out what's what.
-  request_types.each do |request_type|
+  # Each module handles a subset of all auth entity types ("actor",
+  # "container", "group", "object"); some handle all, while others
+  # handle fewer.
+  #
+  # The current metric setup places these entity types after the
+  # module in the metric path.  We'll take a look at the whisper files
+  # on disk to determine which entity types are valid for the current
+  # module.
+  #
+  # This does require that the whisper files exist on disk, so it may
+  # require a second chef-client run after metrics start flowing
+  # before the proper graphs show up.
+  entity_types = Bifrost::WhisperDB.next_level_metrics("stats.timers.#{app_name}.application.byRequestType.#{mod}",
+                                                        whisper_dir)
+  entity_types.each do |entity_type|
 
-    template "#{request_type_dashboard_directory}/#{mod}_#{request_type}_verb_counts_per_second.graph" do
+    template "#{request_type_dashboard_directory}/#{mod}_#{entity_type}_verb_counts_per_second.graph" do
       source "http_request_module_type_verb_counts_per_second.graph.erb"
       variables({
                 :app_name => app_name,
                 :module => mod,
-                :request_type => request_type,
+                :entity_type => entity_type,
                 :scaling_factor => scaling_factor
               })
       owner gdash_owner
       group gdash_group
     end
 
+    # TODO: tweak the library methods to be able to pull these out too?
     ["lower", "mean", "upper_90", "upper"].each do |metric|
 
-      template "#{request_type_dashboard_directory}/#{mod}_#{request_type}_verb_#{metric}.graph" do
+      template "#{request_type_dashboard_directory}/#{mod}_#{entity_type}_verb_#{metric}.graph" do
         source "http_request_module_type_verb_metric.graph.erb"
         variables({
                     :app_name => app_name,
                     :module => mod,
-                    :request_type => request_type,
+                    :entity_type => entity_type,
                     :metric => metric,
 
                     # Only show a graph for HTTP verbs where there
@@ -342,7 +359,6 @@ modules.each do |mod|
         group gdash_group
       end
     end
-
 
   end
   # TODO: It would be nice to also break things out and see the requests
