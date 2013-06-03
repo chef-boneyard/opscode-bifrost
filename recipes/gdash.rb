@@ -308,6 +308,43 @@ modules.each do |mod|
     group gdash_group
   end
 
+  # TODO: Not all modules accept all types... query the whisper files to figure out what's what.
+  request_types.each do |request_type|
+
+    template "#{request_type_dashboard_directory}/#{mod}_#{request_type}_verb_counts_per_second.graph" do
+      source "http_request_module_type_verb_counts_per_second.graph.erb"
+      variables({
+                :app_name => app_name,
+                :module => mod,
+                :request_type => request_type,
+                :scaling_factor => scaling_factor
+              })
+      owner gdash_owner
+      group gdash_group
+    end
+
+    ["lower", "mean", "upper_90", "upper"].each do |metric|
+
+      template "#{request_type_dashboard_directory}/#{mod}_#{request_type}_verb_#{metric}.graph" do
+        source "http_request_module_type_verb_metric.graph.erb"
+        variables({
+                    :app_name => app_name,
+                    :module => mod,
+                    :request_type => request_type,
+                    :metric => metric,
+
+                    # Only show a graph for HTTP verbs where there
+                    # have been more than `threshold` events in the
+                    # time period
+                    :threshold => 1
+                  })
+        owner gdash_owner
+        group gdash_group
+      end
+    end
+
+
+  end
   # TODO: It would be nice to also break things out and see the requests
   # for each request type by HTTP status code, but our metrics are not
   # currently structured to allow us to do that.
