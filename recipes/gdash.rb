@@ -267,8 +267,18 @@ request_types = ["actor",
                  "group",
                  "object"]
 
-request_types.each do |request_type|
-  request_type_dashboard_directory = "#{dashboard_root}/bifrost_http_#{request_type}"
+modules = [
+           "bifrost_wm_acl_action_resource",
+           "bifrost_wm_acl_member_resource",
+           "bifrost_wm_acl_resource",
+           "bifrost_wm_actors_resource",
+           "bifrost_wm_group_member_resource",
+           "bifrost_wm_named_resources",   # <-- TODO: That should be singular
+           "bifrost_wm_unnamed_resources"  # <-- TODO: That should be singular
+          ]
+
+modules.each do |mod|
+  request_type_dashboard_directory = "#{dashboard_root}/bifrost_http_#{mod}"
 
   # Make sure there's a place to stick the dashboards
   directory request_type_dashboard_directory do
@@ -280,33 +290,18 @@ request_types.each do |request_type|
   # Create the dashboard file
   file "#{request_type_dashboard_directory}/dash.yaml" do
     content """---
-:name: Bifrost API '#{request_type}' Request Type
-:description: HTTP Metrics for '#{request_type}' Requests
+:name: Bifrost API '#{mod}' Module
+:description: HTTP Metrics for Requests handled by #{mod}
 """
     owner gdash_owner
     group gdash_group
   end
 
-  # Create a graph showing all the lower, mean, upper 90%, and upper
-  # response times for every combination of request type and HTTP verb
-  ["DELETE", "GET", "POST", "PUT"].each do |verb|
-    template "#{request_type_dashboard_directory}/#{request_type}_#{verb.downcase}_times.graph" do
-      source "http_request_type_verb_times.graph.erb"
-      variables({
-                  :app_name => app_name,
-                  :request_type => request_type,
-                  :verb => verb
-                })
-      owner gdash_owner
-      group gdash_group
-    end
-  end
-
-  template "#{request_type_dashboard_directory}/#{request_type}_counts_per_second.graph" do
-    source "http_request_type_counts_per_second.graph.erb"
+  template "#{request_type_dashboard_directory}/#{mod}_counts_per_second.graph" do
+    source "http_request_module_counts_per_second.graph.erb"
     variables({
                 :app_name => app_name,
-                :request_type => request_type,
+                :module => mod,
                 :scaling_factor => scaling_factor
               })
     owner gdash_owner
