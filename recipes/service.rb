@@ -13,40 +13,15 @@ directory node[app_name]['bin_dir'] do
   mode "0755"
 end
 
-
-vips = data_bag_item("vips", node[:app_environment])
-
-if node['stats_hero'] && node['stats_hero']['estatsd_host']
-  estatsd_host = node['stats_hero']['estatsd_host']
-else
-  estatsd_host = vips['estatsd_host']
-end
-
-# DB host is 1) node override or 2) VIP or 3) role query
-db_host = if node[app_name]['database']['host']
-  Chef::Log.info("Using node attribute for #{app_name} DB host")
-  node[app_name]['database']['host']
-elsif vips["bifrost_pgsql_ip"]
-  Chef::Log.info("Using VIP for #{app_name} DB host")
-  vips["bifrost_pgsql_ip"]
-else
-  Chef::Log.info("Using role for #{app_name} DB host")
-  search(:node, "role:bifrost-pgsql")[0].ipaddress
-end
-
-# superuser ID is in the environments databag
-env = data_bag_item("environments", node[:app_environment])
-superuser_id = env['opscode-authz-superuser-id']
-
 config_variables = {
   :ip                   => node['oc_bifrost']['host'],
   :port                 => node['oc_bifrost']['port'],
-  :superuser_id         => superuser_id,
+  :superuser_id         => node['oc_bifrost']['superuser_id'],
   :console_log_size     => node['oc_bifrost']['console_log_size'],
   :console_log_count    => node['oc_bifrost']['console_log_count'],
   :error_log_size       => node['oc_bifrost']['error_log_size'],
   :error_log_count      => node['oc_bifrost']['error_log_count'],
-  :db_host              => db_host,
+  :db_host              => node['oc_bifrost']['database']['host'],
   :db_port              => node['oc_bifrost']['database']['port'],
   :db_name              => node['oc_bifrost']['database']['name'],
   :db_user              => node['oc_bifrost']['database']['users']['owner']['name'],
@@ -57,7 +32,7 @@ config_variables = {
   :udp_socket_pool_size => node['oc_bifrost']['stats_hero_udp_socket_pool_size'],
 
   # TODO: need to get this from search?
-  :estatsd_host => estatsd_host,
+  :estatsd_host => node['oc_bifrost']['estatsd_host'],
   :estatsd_port => node['stats_hero']['estatsd_port']
 }
 
