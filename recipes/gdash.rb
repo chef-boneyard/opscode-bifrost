@@ -325,14 +325,20 @@ modules.each do |mod|
                                                         whisper_dir)
   entity_types.each do |entity_type|
 
+    # Only show a graph for HTTP verbs where there
+    # have been more than `threshold` events in the
+    # time period
+    http_method_count_threshold = 1
+
     template "#{request_type_dashboard_directory}/#{mod}_#{entity_type}_verb_counts_per_second.graph" do
       source "http_request_module_type_verb_counts_per_second.graph.erb"
       variables({
-                :app_name => app_name,
-                :module => mod,
-                :entity_type => entity_type,
-                :scaling_factor => scaling_factor
-              })
+                  :app_name => app_name,
+                  :module => mod,
+                  :entity_type => entity_type,
+                  :scaling_factor => scaling_factor,
+                  :threshold => http_method_count_threshold
+                })
       owner gdash_owner
       group gdash_group
     end
@@ -347,11 +353,7 @@ modules.each do |mod|
                     :module => mod,
                     :entity_type => entity_type,
                     :metric => metric,
-
-                    # Only show a graph for HTTP verbs where there
-                    # have been more than `threshold` events in the
-                    # time period
-                    :threshold => 1
+                    :threshold => http_method_count_threshold
                   })
         owner gdash_owner
         group gdash_group
