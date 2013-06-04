@@ -1,5 +1,24 @@
 app_name = node['app_name']
 
+# Remove the baked-in etc directory from the oc_bifrost release
+# process.  This was added in version 1.1.5 to make bundling
+# oc_bifrost into OPC builds a little easier; that build process does
+# not currently use this cookbook (sadly), and so some of the files
+# laid down for the release in this cookbook (etc/vm.args,
+# bin/nodetool, bin/erl, bin/oc_bifrost) are now also baked into the
+# release process.  The sys.config is still templatized in OPC, of
+# course.
+#
+# Long story short, we need to nuke the etc directory that is
+# created by the OTP release process before linking it in from the
+# "real" place the etc files from this cookbook come from.
+#
+# Harmonizing OPC and OHC cookbooks can't come quickly enough!
+directory "#{node[app_name]['srv_dir']}/etc" do
+  action :delete
+  recursive true
+end
+
 link "link_etc_dir_into_srv_dir" do
   to node[app_name]['etc_dir']
   target_file "#{node[app_name]['srv_dir']}/etc"
