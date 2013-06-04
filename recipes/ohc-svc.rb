@@ -6,11 +6,7 @@ app = 'oc_bifrost'
 vips = data_bag_item("vips", node[:app_environment])
 
 # estatsd host is 1) node override or 2) VIP
-node.default[app]['estatsd_host'] = if node['stats_hero'] && node['stats_hero']['estatsd_host']
-   node['stats_hero']['estatsd_host']
-else
-  vips['estatsd_host']
-end
+node.default_unless['stats_hero']['estatsd_host'] = vips['estatsd_host']
 
 # DB host is 1) node override or 2) VIP or 3) role query
 node.default[app]['database']['host'] = if node[app]['database']['host']
