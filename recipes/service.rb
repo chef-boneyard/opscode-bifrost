@@ -95,10 +95,10 @@ template "/etc/logrotate.d/#{app_name}" do
   group 'root'
   mode '644'
   variables({
-              :console_log_count => node['oc_bifrost']['console_log_count'],
-              :console_log_size  => node['oc_bifrost']['console_log_size'],
-              :error_log_count   => node['oc_bifrost']['error_log_count'],
-              :error_log_size    => node['oc_bifrost']['error_log_size'],
+              :console_log_count => node['oc_bifrost']['log_rotation']['console_log']['num_to_keep'],
+              :console_log_size  => node['oc_bifrost']['log_rotation']['console_log']['file_maxbytes'],
+              :error_log_count   => node['oc_bifrost']['log_rotation']['error_log']['num_to_keep'],
+              :error_log_size    => node['oc_bifrost']['log_rotation']['error_log']['file_maxbytes'],
               :log_dir           => node['oc_bifrost']['log_dir']
             })
 end
