@@ -51,7 +51,7 @@ config_variables = {
   :udp_socket_pool_size => node['oc_bifrost']['stats_hero_udp_socket_pool_size'],
 
   # TODO: need to get this from search?
-  :estatsd_host => node['oc_bifrost']['estatsd_host'],
+  :estatsd_host => node['stats_hero']['estatsd_host'],
   :estatsd_port => node['stats_hero']['estatsd_port']
 }
 
