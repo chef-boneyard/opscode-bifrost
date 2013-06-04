@@ -36,10 +36,6 @@ config_variables = {
   :ip                   => node['oc_bifrost']['host'],
   :port                 => node['oc_bifrost']['port'],
   :superuser_id         => node['oc_bifrost']['superuser_id'],
-  :console_log_size     => node['oc_bifrost']['console_log_size'],
-  :console_log_count    => node['oc_bifrost']['console_log_count'],
-  :error_log_size       => node['oc_bifrost']['error_log_size'],
-  :error_log_count      => node['oc_bifrost']['error_log_count'],
   :db_host              => node['oc_bifrost']['database']['host'],
   :db_port              => node['oc_bifrost']['database']['port'],
   :db_name              => node['oc_bifrost']['database']['name'],
@@ -92,6 +88,29 @@ end
   end
 end
 
+# Use logrotate for, um, log rotation
+template "/etc/logrotate.d/#{app_name}" do
+  source 'logrotate.erb'
+  owner 'root'
+  group 'root'
+  mode '644'
+  variables({
+              :console_log_count => node['oc_bifrost']['log_rotation']['console_log']['num_to_keep'],
+              :console_log_size  => node['oc_bifrost']['log_rotation']['console_log']['file_maxbytes'],
+              :error_log_count   => node['oc_bifrost']['log_rotation']['error_log']['num_to_keep'],
+              :error_log_size    => node['oc_bifrost']['log_rotation']['error_log']['file_maxbytes'],
+              :log_dir           => node['oc_bifrost']['log_dir']
+            })
+end
+
+# Bifrost is chatty, so we'll want to be a bit more aggressive running
+# logrotate to ensure that log sizes don't get too big.
+template "/etc/cron.hourly/logrotate" do
+  cookbook "logrotate"
+  owner "root"
+  group "root"
+  mode "644"
+end
 
 # Drop off an rsyslog configuration
 template "/etc/rsyslog.d/30-#{app_name}.conf" do

@@ -1,5 +1,7 @@
 app_name = node['app_name']
 
+include_recipe "logrotate::default"
+
 include_recipe "opscode-bifrost::common_directories"
 include_recipe "opscode-bifrost::erlang_application_base"
 
