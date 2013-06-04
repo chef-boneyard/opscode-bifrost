@@ -17,26 +17,6 @@ node.set[app_name]['sasl_dir'] = "#{node[app_name]['log_dir']}/sasl"
 # will be found.  This will be a link to the 'rel_dir', defined below
 node.set[app_name]['srv_dir'] = "/srv/#{app_name}"
 
-
-# Source Directory
-#
-# This is where we'll check out the Git source code for the application
-node.set[app_name]['src_dir'] = if node[app_name]['development_mode']
-                                  "/vagrant"
-                                else
-                                  src = node['src_dir'] || begin
-                                                             Chef::Log.fatal("Define node['src_dir']")
-                                                             raise
-                                                           end
-                                  "#{src}/#{app_name}"
-                                end
-
-# Release Directory
-#
-# The directory in which the release will be built.  This is in a Git
-# checkout, currently
-node.set[app_name]['rel_dir'] = "#{node[app_name]['src_dir']}/rel/#{app_name}"
-
 # Configuration Directory
 #
 # We'll store the release config files in a separate directory (and
