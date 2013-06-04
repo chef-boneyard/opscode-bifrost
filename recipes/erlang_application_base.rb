@@ -3,6 +3,10 @@ app_name = node['app_name'] || begin
                                  raise
                                end
 
+# Required
+include_recipe "erlang_binary::default"
+include_recipe "erlang_binary::rebar"
+
 # Log Directories
 node.set[app_name]['log_dir'] = "/var/log/#{app_name}"
 node.set[app_name]['sasl_dir'] = "#{node[app_name]['log_dir']}/sasl"

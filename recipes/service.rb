@@ -1,3 +1,4 @@
+# Configures generic OTP service.
 app_name = node['app_name']
 
 # Remove the baked-in etc directory from the oc_bifrost release
@@ -32,32 +33,6 @@ directory node[app_name]['bin_dir'] do
   mode "0755"
 end
 
-config_variables = {
-  :ip                   => node['oc_bifrost']['host'],
-  :port                 => node['oc_bifrost']['port'],
-  :superuser_id         => node['oc_bifrost']['superuser_id'],
-  :db_host              => node['oc_bifrost']['database']['host'],
-  :db_port              => node['oc_bifrost']['database']['port'],
-  :db_name              => node['oc_bifrost']['database']['name'],
-  :db_user              => node['oc_bifrost']['database']['users']['owner']['name'],
-  :db_pass              => node['oc_bifrost']['database']['users']['owner']['password'],
-  :pool_size            => node['oc_bifrost']['database']['connection_pool_size'],
-  :max_pool_size        => node['oc_bifrost']['database']['max_connection_pool_size'],
-  :log_dir              => node['oc_bifrost']['log_dir'],
-  :udp_socket_pool_size => node['oc_bifrost']['stats_hero_udp_socket_pool_size'],
-
-  # TODO: need to get this from search?
-  :estatsd_host => node['oc_bifrost']['estatsd_host'],
-  :estatsd_port => node['stats_hero']['estatsd_port']
-}
-
-template "#{node[app_name]['etc_dir']}/sys.config" do
-  owner "opscode"
-  group "opscode"
-  mode 0644
-  variables(config_variables)
-  notifies :restart, "service[#{app_name}]", :delayed
-end
 
 template "#{node[app_name]['etc_dir']}/vm.args" do
   owner "opscode"
