@@ -1,31 +1,23 @@
-app_name = node['app_name']
+# Checks out source code unless in dev mode.
+app_name = 'oc_bifrost'
 
-# This is where we'll check out the Git source code for the application
-# The first one, src_dir, is for building the service.
-# The second one, db_src_dir, is for initializing the db.
-node.set[app_name]['src_dir'] = if node[app_name]['development_mode']
-                                  "/vagrant"
-                                else
-                                  src = node['src_dir'] || begin
-                                                             Chef::Log.fatal("Define node['src_dir']")
-                                                             raise
-                                                           end
-                                  "#{src}/#{app_name}"
-                                end
 
-node.set[app_name]['db_src_dir'] = if node[app_name]['development_mode']
-                                  "/vagrant"
-                                else
-                                  src = node['db_src_dir'] || begin
-                                                             Chef::Log.fatal("Define node['db_src_dir']")
-                                                             raise
-                                                           end
-                                  "#{src}/#{app_name}"
-                                end
+if node[app_name]['development_mode']
+  node.set[app_name]['src_dir'] = "/vagrant"
+else
+  src_dir = "/usr/local/src"
 
-unless node[app_name]['development_mode']
-  git "#{app_name}_db_source" do
-    destination node[app_name]['db_src_dir']
+  directory src_dir do
+    owner "opscode"
+    group "opscode"
+    mode "0755"
+    recursive true
+  end
+
+  node.set[app_name]['src_dir'] = "#{src_dir}/#{app_name}"
+
+  git "#{app_name}_source" do
+    destination node[app_name]['src_dir']
     repository "git@github.com:opscode/#{app_name}.git"
     revision node[app_name]['revision']
     user "opscode"
