@@ -25,6 +25,8 @@ Attributes
 * `node['oc_bifrost']['group']` - The group of the `oc_bifrost` server process
 * `node['oc_bifrost']['revision']` - The Git branch / tag / SHA1 of
   the source code to fetch.
+* `node['oc_bifrost']['build-revision']` - The revision of the build package
+  to deploy.
 * `node['oc_bifrost']['database']['name']` - The name of the
   database.  Defaults to `bifrost`.
 * `node['oc_bifrost']['database']['users']['owner']['name']` - The
@@ -50,7 +52,7 @@ Attributes
   rotation.  This is where each request (whose HTTP response status is
   500 or greater) is logged.  Defaults to 20 MB. Acceptable values can
   be anything that logrotate accepts (e.g., 1024, 1k, 1M, 1G)
-* `node['oc_bifrost']['error_log_size']` -
+* `node['oc_bifrost']['error_log_count']` -
   The number of rotated `error.log` files to keep.  Defaults to 5.
 
 Note that it is possible that the actual size of a log file may exceed
@@ -64,25 +66,26 @@ rotation policy.
 Recipes
 =======
 
-* `common_directories` - Creates a common directory for source
-  checkouts.  Could be extracted to a common platform-wide cookbook.
+* `api_server` - Configures an instance of the API server.
+* `build` - In development mode, builds the API service from local source.
 * `database` - Installs and configures a PostgreSQL server.  Creates
   database user accounts, the `bifrost` database, and migrates the
   database schema.
 * `database_test` - In addition to everything that `database` does,
   installs [pgTAP][] and [pg_prove][] and prepares the database for
   running tests.
-* `default` - Installs Erlang and rebar, fetches the `oc_bifrost` code,
-  and installs the database.
-* `development` - Development mode.  Use this recipe when hacking on
-  `oc_bifrost` locally via Vagrant.  Takes source code and schema from
-  the `/vagrant` directory instead of fetching from Github.
+* `deploy` - Deploy the API service from build package.
+* `erlang_application_base` - Basic setup for an erlang service.
 * `fetch_code` - Grab the `oc_bifrost` code from Github __if not in
   development mode__.
+* `gdash` - Sets up gdash dashboard files.
+* `ohc-db` - Bifrost's DB in the OHC environment.
+* `ohc-svc` - Bifrost's API service in the OHC environment.
 * `pg_prove` - Install [pg_prove][].  Will eventually be added to the
   [postgresql][] cookbook.
 * `pgtap` - Install [pgTAP][].  Will eventually be added to the
   [postgresql][] cookbook.
+* `service` - Generic setup for an erlang service.
 
 # Author
 

@@ -3,6 +3,10 @@ app_name = node['app_name']
 
 raise "Build recipe can only be used in development mode!" unless node[app_name]['development_mode']
 
+# In dev mode, source is mounted at /vagrant
+src_dir = "/vagrant"
+rel_dir = "#{src_dir}/rel/#{app_name}"
+
 include_recipe "git"
 
 # Encapsulate the logic for stopping the app service, rebuilding the
@@ -36,7 +40,7 @@ execute "distclean_#{app_name}" do
   end
 
   command "make distclean"
-  cwd node[app_name]['src_dir']
+  cwd src_dir
   notifies :run, "execute[rel_#{app_name}]", :immediately
   action :nothing
 end
@@ -50,7 +54,7 @@ execute "rel_#{app_name}" do
   end
 
   command "make relclean rel"
-  cwd node[app_name]['src_dir']
+  cwd src_dir
   action :nothing
 end
 
@@ -64,11 +68,11 @@ end
 execute "rm -Rf #{node[app_name]['srv_dir']}" do
   only_if "test -d #{node[app_name]['srv_dir']}"
 end
-execute "cp -R #{node[app_name]['rel_dir']} #{File.dirname(node[app_name]['srv_dir'])}"
+execute "cp -R #{rel_dir} #{File.dirname(node[app_name]['srv_dir'])}"
 execute "chown -R opscode:opscode #{node[app_name]['srv_dir']}"
 
 # link "link_release_to_service_directory" do
-#   to node[app_name]['rel_dir']
+#   to rel_dir
 #   target_file node[app_name]['srv_dir']
 #   owner "opscode"
 #   group "opscode"

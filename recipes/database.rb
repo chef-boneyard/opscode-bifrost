@@ -1,4 +1,6 @@
-include_recipe "opscode-bifrost::common_directories"
+# Bifrost DB instance.
+app_name = 'oc_bifrost'
+
 include_recipe "opscode-postgresql"
 
 ################
@@ -74,7 +76,7 @@ end
 # (https://github.com/theory/sqitch), from the creator of pgTAP.
 execute "migrate_database" do
   command "psql -d #{database_name} --set ON_ERROR_STOP=1 --single-transaction -f bifrost.sql"
-  cwd "#{node['oc_bifrost']['db_src_dir']}/schema/sql"
+  cwd "#{node['oc_bifrost']['src_dir']}/schema/sql"
   user "postgres"
 
   only_if { File.exist?(node['postgresql']['config']['external_pid_file']) }
@@ -93,7 +95,7 @@ execute "add_permissions" do
          --set database_name=#{database_name} \
          --file permissions.sql
   """
-  cwd "#{node['oc_bifrost']['db_src_dir']}/schema/sql"
+  cwd "#{node['oc_bifrost']['src_dir']}/schema/sql"
   user "postgres"
 
   only_if { File.exist?(node['postgresql']['config']['external_pid_file']) }
