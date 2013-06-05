@@ -28,11 +28,17 @@
                       {lager_console_backend, error},
                       {lager_file_backend, [
                                             {file, "<%= File.join(@log_dir, 'error.log') %>"},
-                                            {level, error}
+                                            {level, error},
+                                            %% Disable lager's rotation in favor of logrotate
+                                            {size, 0},
+                                            {date, ""}
                                            ]},
                       {lager_file_backend, [
                                             {file, "<%= File.join(@log_dir, 'console.log') %>"},
                                             {level, info},
+                                            %% Disable lager's rotation in favor of logrotate
+                                            {size, 0},
+                                            {date, ""},
                                             %% Removes the logging source, since currently
                                             %% there's only one place in all of Bifrost that
                                             %% we log from.  Also removes the PID from
