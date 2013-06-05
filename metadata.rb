@@ -4,9 +4,9 @@ maintainer_email "cm@opscode.com"
 license          "All rights reserved"
 description      "Installs/Configures oc_bifrost, the Opscode Authorization API"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "0.2.12"
+version          "0.2.13"
 
-recipe "opscode-bifrost", "Installs Erlang and rebar (for now)"
+recipe "api_server", "Installs the Bifrost service"
 recipe "database", "Creates the bifrost database, schema, and users"
 
 depends "opscode-postgresql", "~> 0.2.6"
@@ -27,6 +27,5 @@ depends "perl"
 depends "git"
 depends "python"
 depends "deployment-notifications", "~> 0.1.0"
-depends "opscode_extensions", "~> 1.0.2"
-depends "build-essential" # for s3 artifacts
+depends "opscode_extensions", "~> 1.0.2" # for s3 artifacts
 depends "logrotate"
