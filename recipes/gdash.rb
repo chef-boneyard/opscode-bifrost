@@ -366,3 +366,85 @@ modules.each do |mod|
   # currently structured to allow us to do that.
 
 end
+
+################################
+
+# Machine-based Graphs
+bifrost_hosts = partial_search(:node, "role:opscode-bifrost",
+                               {"hostname" => ["hostname"]})
+
+# Our Munin clients have different hostnames in preprod (EC2)
+# vs. prod.  We get our system metrics from munin, so this affects the
+# metric labels we need to use.
+#
+# See cookbooks/munin/templates/default/munin-node.conf.erb for
+# why this is necessary.
+#
+# These prefixes are presented already in reverse-DNS style, which is
+# how we structure our metrics hierarchy.
+#
+# As coded, this case statement assumes that the machine this recipe
+# is running on (the GDash server) is in the same app_environment as
+# the bifrost hosts.  Probably a sane assumption, but being explicit
+# never hurts.
+server_metric_prefix = case node[:app_environment]
+                       when "rs-preprod"
+                         "internal.ec2"
+                       else
+                         "us.opscode"
+                       end
+
+bifrost_hosts.each do |host|
+  hostname = host["hostname"]
+
+  dashboard_directory = "#{dashboard_root}/#{hostname}"
+
+  directory dashboard_directory do
+    owner gdash_owner
+    group gdash_group
+    recursive true
+  end
+
+  file "#{dashboard_directory}/dash.yaml" do
+    content """---
+:name: Information for #{hostname}
+:description: Machine-specific Metrics for #{hostname}
+"""
+    owner gdash_owner
+    group gdash_group
+  end
+
+  template "#{dashboard_directory}/#{hostname}_network_traffic.graph" do
+    source "machine_network_traffic.graph.erb"
+    variables({
+                :machine => hostname,
+                :prefix => server_metric_prefix,
+                :app_name => app_name
+              })
+    owner gdash_owner
+    group gdash_group
+  end
+
+  template "#{dashboard_directory}/#{hostname}_cpu_vs_response_time.graph" do
+    source "cpu_vs_response_time.graph.erb"
+    variables({
+                :machine => hostname,
+                :prefix => server_metric_prefix,
+                :app_name => app_name
+              })
+    owner gdash_owner
+    group gdash_group
+  end
+
+  template "#{dashboard_directory}/#{hostname}_cpu_vs_requests_per_second.graph" do
+    source "cpu_vs_requests_per_second.graph.erb"
+    variables({
+                :machine => hostname,
+                :prefix => server_metric_prefix,
+                :app_name => app_name
+              })
+    owner gdash_owner
+    group gdash_group
+  end
+
+end

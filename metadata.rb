@@ -20,6 +20,8 @@ depends "apt", "= 1.2.2"
 # https://github.com/opscode-cookbooks/opscode-pedant
 depends "opscode-pedant", "~> 0.1.2"
 
+depends "partial_search"
+
 # These come from our infrastructure
 depends "erlang_binary", "~> 0.0.3"
 depends "runit", "0.13.0" # internal fork
