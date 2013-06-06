@@ -22,5 +22,6 @@ description "API Requests as seen by stats.timers.<%= @app_name %>.application.b
 # as the labels; the ':group' field label is ignored.
 
 field :group,
+      # node 5 = module
       :data => 'groupByNode(scale(stats.timers.<%= @app_name %>.application.byRequestType.*.*.*.count, <%= @scaling_factor %>), 5, "sumSeries"))',
       :no_alias => true

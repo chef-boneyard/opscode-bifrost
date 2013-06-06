@@ -5,5 +5,6 @@ vtitle      'reqs / sec'
 description "API Requests as seen by stats.timers.<%= @app_name %>.application.byRequestType.<%= @module %>.*.*.count, scaled by <%= @scaling_factor %>"
 
 field :group,
+      # node 6 = request type
       :data => 'groupByNode(scale(stats.timers.<%= @app_name %>.application.byRequestType.<%= @module %>.*.*.count, <%= @scaling_factor %>), 6, "sumSeries"))',
       :no_alias => true
