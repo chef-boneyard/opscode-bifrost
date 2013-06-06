@@ -10,4 +10,4 @@ description "Overall counts of database calls broken out by function"
 
 field :count,
       :data => 'scale(stats.timers.<%= @app_name %>.upstreamRequests.rdbms.<%= @app_name %>_db.*.count, <%= @scaling_factor %>)',
-      :alias_by_node => 6
+      :alias_by_node => 6 # database function

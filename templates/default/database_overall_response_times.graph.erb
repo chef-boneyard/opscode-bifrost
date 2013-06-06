@@ -6,4 +6,4 @@ hide_legend false
 
 field :metric,
       :data => "stats.timers.<%= @app_name %>.upstreamRequests.rdbms.{lower,mean,upper_90,upper}",
-      :alias_by_node => 5
+      :alias_by_node => 5 # response metric

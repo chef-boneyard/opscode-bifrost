@@ -1,0 +1,34 @@
+title        "Network Traffic for <%= @machine %>"
+area         :none
+vtitle       "bps in (-) / bps out (+)"
+vtitle_right "req/s"
+hide_legend  false
+
+# Though GDash has built-in support for derivative, scaleToSeconds,
+# and scale, the combination in this particular case doesn't appear to
+# get applied in the "right" order.  We'll do it manually, though, so
+# no biggie.
+#
+# The scaling factor of "8" is to get to bits per second (as opposed
+# to bytes); it's "-8" for the incoming traffic to flip it below the
+# X-axis, as is customary for these kinds of graphs.
+
+field :downstream,
+      :data => "scale(scaleToSeconds(derivative(servers.<%= @prefix %>.<%= @machine %>.network.if_eth0.down),1),-8)",
+      :color => :red,
+      :alias => "Incoming"
+
+field :upstream,
+      :data => "scale(scaleToSeconds(derivative(servers.<%= @prefix %>.<%= @machine %>.network.if_eth0.up),1),8)",
+      :color => :green,
+      :alias => "Outgoing"
+
+# Overlaying API requests lets us correlate network activity and API
+# activity, which should be in sync.  One exception would be when
+# doing chef-client runs... we'd expect to see a spike in incoming
+# traffic, but no accompanying spike in API activity.
+
+field :requests,
+      :data => "stats.<%= @app_name %>.<%= @machine %>.allRequests",
+      :second_y_axis => true,
+      :alias => "API Requests"

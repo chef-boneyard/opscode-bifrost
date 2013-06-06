@@ -1,0 +1,12 @@
+title       "<%= @app_name %> <%= @metric %> API Response Times"
+area        :none
+vtitle      "ms"
+description "Aggregated response time as seen by stats.timers.<%= @app_name %>.application.allRequests.<%= @metric %>"
+hide_legend false
+
+field :<%= @metric %>,
+      :data => "stats.timers.<%= @app_name %>.application.allRequests.<%= @metric %>"
+
+field :moving_average,
+      :data => "movingAverage(stats.timers.<%= @app_name %>.application.allRequests.<%= @metric %>, 10)",
+      :alias => "Moving Average (10 points)"
