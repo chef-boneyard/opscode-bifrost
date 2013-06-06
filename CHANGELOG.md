@@ -1,3 +1,8 @@
+# 0.2.14 - 2013-06-06
+- Add more GDash dashboards (including machine-specific ones), as well
+  as tweak existing graphs.  Add resource module-specific graphs.
+- Bump `oc_bifrost` to version 1.1.6
+
 # 0.2.9 - 2013-05-30
 - Boost the number of database connections to 100.
 
