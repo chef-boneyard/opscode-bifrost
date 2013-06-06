@@ -1,0 +1,9 @@
+title       "<%= @metric %> <%= @module %> / <%= @entity_type %> by HTTP Verb"
+area        :none
+hide_legend false
+vtitle      'ms'
+description "API Requests as seen by stats.timers.<%= @app_name %>.application.byRequestType.<%= @module %>.<%= @entity_type %>.*.<%= @metric %>"
+
+field :group,
+      :data => 'currentAbove(stats.timers.<%= @app_name %>.application.byRequestType.<%= @module %>.<%= @entity_type %>.*.<%= @metric %>, <%= @threshold %>)',
+      :alias_by_node => 7 # HTTP verb

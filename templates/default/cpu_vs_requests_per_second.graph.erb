@@ -1,0 +1,22 @@
+title        "CPU vs Req/s for <%= @machine %>"
+area         :none
+vtitle       "% CPU"
+vtitle_right "req/s"
+hide_legend  false
+
+# prefix = "us.opscode"   in prod
+#          "internal.ec2" in preprod
+#
+# machine ~ "bifrost-rspreprod-i-7cd17704"
+
+<% ['system', 'user', 'idle'].each do |field| -%>
+field :<%= field %>,
+      :data => "servers.<%= @prefix %>.<%= @machine %>.system.cpu.<%= field %>",
+      :derivative => true,
+      :scale_to_seconds => 1
+<% end -%>
+
+field :requests,
+      :data => "stats.<%= @app_name %>.<%= @machine %>.allRequests",
+      :second_y_axis => true,
+      :alias => "API Requests"

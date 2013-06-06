@@ -1,4 +1,4 @@
-title       "Requests Per Second by HTTP Status"
+title       "Requests Per Second by HTTP Status (more than 2 instances)"
 area        :none
 hide_legend false
 vtitle      'reqs / sec'
@@ -15,4 +15,4 @@ description "API Requests as seen by stats.<%= @app_name %>.application.byStatus
 # above a given threshold at the end of the graphed time period.
 field :rate,
       :data => 'currentAbove(stats.<%= @app_name %>.application.byStatusCode.*, 2)',
-      :alias_by_node => 4
+      :alias_by_node => 4 # status code

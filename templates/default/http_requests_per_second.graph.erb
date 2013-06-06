@@ -1,6 +1,6 @@
-title       "Requests Per Second"
+title       "<%= @app_name %> API Requests Per Second"
 area        :none
-hide_legend true
+hide_legend false
 vtitle      'reqs / sec'
 description "API Requests as seen by stats.<%= @app_name %>.application.allRequests"
 
@@ -11,6 +11,10 @@ description "API Requests as seen by stats.<%= @app_name %>.application.allReque
 
 field :rate,
       :data => 'stats.<%= @app_name %>.application.allRequests'
+
+field :moving_average,
+      :data => "movingAverage(stats.<%= @app_name %>.application.allRequests, 10)",
+      :alias => "Moving Average (10 points)"
 
 # Alternatively, we can use the stats_counts.* version of the metric,
 # which is stored at a reduced resolution.  However, it is NOT scaled
