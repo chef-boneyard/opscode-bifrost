@@ -39,19 +39,16 @@ Attributes
   that need to safely explore and debug the database.
 * `node['oc_bifrost']['database']['users']['read_only']['password']`
   - The password for the read-only database user.
-* `node['oc_bifrost']['console_log_size']` -
+* `node['oc_bifrost']['console_log_mb']` -
   The target size beyond which the console.log file will be targeted for
   rotation.  This is where each request (whose HTTP response status is
   less than 500) is logged, so larger is better.  Defaults to 400 MB.
-  Acceptable values can be anything that logrotate accepts (e.g.,
-  1024, 1k, 1M, 1G).
 * `node['oc_bifrost']['console_log_count']` -
   The number of rotated `console.log` files to keep.  Defaults to 5.
-* `node['oc_bifrost']['error_log_size']` -
+* `node['oc_bifrost']['error_log_mb']` -
   The target size beyond which the error.log file will be targeted for
   rotation.  This is where each request (whose HTTP response status is
-  500 or greater) is logged.  Defaults to 20 MB. Acceptable values can
-  be anything that logrotate accepts (e.g., 1024, 1k, 1M, 1G)
+  500 or greater) is logged.  Defaults to 20 MB.
 * `node['oc_bifrost']['error_log_count']` -
   The number of rotated `error.log` files to keep.  Defaults to 5.
 

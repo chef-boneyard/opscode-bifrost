@@ -1,33 +1,38 @@
 # The Bifrost API service
 #
-# Pulls in erlang service requirements.
-# In development mode, builds from source, otherwise
-# deploys from build artifact.
-# Then configures the service.
-app_name = node['app_name']
+# In development mode, build from source; otherwise deploys from build
+# artifact. Then configure the service.
+#
+# Uses otp_service which pulls defaults from node[app_name].
+# See otp_service.rb for details.
+#
 
-include_recipe "logrotate::default"
-include_recipe "opscode-bifrost::erlang_application_base"
+app_name = 'oc_bifrost'
 
-if node[app_name]['development_mode']
-  # In dev we build from source
-  include_recipe "opscode-bifrost::build"
-else
-  # Otherwise we deploy from artifact
-  include_recipe "opscode-bifrost::deploy"
+# The otp_service resource handles all the generic
+# OTP service logic:
+# - build from source or download from S3 (depending on dev mode)
+# - deploy build artifact
+# - configure generic OTP service
+#
+# It defaults to using node attributes which is why we don't
+# need to specify them here (although they can be overridden
+# in resource definition).
+#
+# App-specific configuration is done next.
+#
+opscode_bifrost_otp_service app_name do
+  action :deploy
 end
 
-# Generic OTP service config
-include_recipe "opscode-bifrost::service"
-
-# Bifrost-specific config
+# Bifrost-specific config.
 config_variables = {
   :ip                   => node[app_name]['host'],
   :port                 => node[app_name]['port'],
   :superuser_id         => node[app_name]['superuser_id'],
-  :console_log_size     => node[app_name]['console_log_size'],
+  :console_log_mb       => node[app_name]['console_log_mb'],
   :console_log_count    => node[app_name]['console_log_count'],
-  :error_log_size       => node[app_name]['error_log_size'],
+  :error_log_mb         => node[app_name]['error_log_mb'],
   :error_log_count      => node[app_name]['error_log_count'],
   :db_host              => node[app_name]['database']['host'],
   :db_port              => node[app_name]['database']['port'],
@@ -43,9 +48,9 @@ config_variables = {
 }
 
 template "#{node[app_name]['etc_dir']}/sys.config" do
-  owner "opscode"
-  group "opscode"
+  owner node[app_name]['owner']
+  group node[app_name]['group']
   mode 0644
   variables(config_variables)
-  notifies :restart, "service[#{app_name}]", :delayed
+  notifies :delayed_restart, "opscode-bifrost_otp_service[#{app_name}]", :immediately
 end

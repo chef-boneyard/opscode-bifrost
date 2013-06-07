@@ -8,10 +8,10 @@ endscript
 
 <%= @log_dir %>/console.log {
     rotate <%= @console_log_count %>
-    size <%= @console_log_size %>
+    size <%= @console_log_mb * 1024 * 1024 %>
 }
 
 <%= @log_dir %>/error.log {
     rotate <%= @error_log_count %>
-    size <%= @error_log_size %>
+    size <%= @error_log_mb * 1024 * 1024 %>
 }
