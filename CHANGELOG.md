@@ -1,3 +1,6 @@
+# 0.2.15 - 2013-06-17
+- Make hourly logrotate script executable.  Surprisingly important!
+
 # 0.2.14 - 2013-06-06
 - Add more GDash dashboards (including machine-specific ones), as well
   as tweak existing graphs.  Add resource module-specific graphs.
