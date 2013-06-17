@@ -49,10 +49,10 @@ action :deploy do
     # Technically this doesn't mean the app was deployed, just the pkg.
     # So not necessarily active... But where else can I put this?
     if new_resource.hipchat_key
-      deployment_notification("execute[untar_#{new_resource.name}]") do
+      deployment_notification("link[link_current_#{new_resource.name}]") do
         app_environment new_resource.app_environment
         service_name new_resource.name
-        # Untar resource doesn't have a revision attribute, so we set
+        # Link resource doesn't have a revision attribute, so we set
         # the message instead.
         message "Deployed revision #{new_resource.revision} of #{new_resource.name} on #{node[:fqdn]} in #{new_resource.app_environment}"
         estatsd_host new_resource.estatsd_host
