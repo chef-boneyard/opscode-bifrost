@@ -1,4 +1,8 @@
 # OTP service LWRP
+#
+# NOTE: This LWRP uses node attributes as defaults. See
+# providers/otp_service.rb for more details.
+#
 
 def initialize(*args)
   super

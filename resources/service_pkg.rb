@@ -4,8 +4,8 @@ actions :deploy, :delete, :default => :deploy
 
 # app name used to derive standard values
 attribute :name, :kind_of => String, :name_attribute => true
-attribute :revision, :kind_of => String
-attribute :tarball, :kind_of => String
+attribute :revision, :kind_of => String, :required
+attribute :tarball, :kind_of => String, :required
 
 # Force deployment
 attribute :force_deploy, :kind_of => [TrueClass, FalseClass], :default => false
@@ -14,8 +14,8 @@ attribute :force_deploy, :kind_of => [TrueClass, FalseClass], :default => false
 attribute :root_dir, :kind_of => String, :default => "/srv"
 
 # User and group that own the files
-attribute :owner, :kind_of => String
-attribute :group, :kind_of => String
+attribute :owner, :kind_of => String, :required
+attribute :group, :kind_of => String, :required
 
 # For hipchat notifications:
 attribute :estatsd_host, :kind_of => String
