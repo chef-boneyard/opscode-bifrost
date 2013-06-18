@@ -5,8 +5,12 @@
 #
 
 action :build do
+  @run_context.include_recipe "erlang_binary::default"
+  @run_context.include_recipe "erlang_binary::rebar"
+
   if new_resource.source =~ /^git/
     # Source is a git reference. Sync git repo.
+    @run_context.include_recipe "git"
     src_dir = "#{new_resource.src_root_dir}/#{new_resource.name}"
 
     if new_resource.force_clean_src

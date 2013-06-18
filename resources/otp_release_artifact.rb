@@ -1,11 +1,7 @@
 # OTP release artifact LWRP. Builds or retrieves a release artifact.
 
-def initialize(*args)
-  super
-  @action = :create
-end
-
 actions :create
+default_action :create
 
 # App name
 attribute :name, :kind_of => String, :name_attribute => true

@@ -44,6 +44,8 @@
 #
 
 action :deploy do
+    @run_context.include_recipe "erlang_binary::default"
+
     opts = options(new_resource)
     service_name = opts[:name]
     root_dir = opts[:root_dir]

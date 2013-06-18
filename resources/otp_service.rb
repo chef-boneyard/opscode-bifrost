@@ -4,13 +4,8 @@
 # providers/otp_service.rb for more details.
 #
 
-def initialize(*args)
-  super
-  @action = :deploy # default
-  @run_context.include_recipe "erlang_binary::default"
-end
-
 actions :deploy, :delayed_restart, :immediate_restart, :stop, :start
+default_action :deploy
 
 # App name used to derive standard values.
 attribute :name, :kind_of => String, :name_attribute => true

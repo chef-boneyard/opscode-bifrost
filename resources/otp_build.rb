@@ -1,15 +1,7 @@
 # OTP build LWRP. Generates a tarball from source.
 
-def initialize(*args)
-  super
-  @action = :build
-
-  @run_context.include_recipe "erlang_binary::default"
-  @run_context.include_recipe "erlang_binary::rebar"
-  @run_context.include_recipe "git"
-end
-
-actions :build, :default => :build
+actions :build
+default_action :build
 
 # App name
 attribute :name, :kind_of => String, :name_attribute => true

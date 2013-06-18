@@ -6,6 +6,10 @@
 # - runit_service
 
 action :create do
+    @run_context.include_recipe "erlang_binary::default"
+    @run_context.include_recipe "logrotate::default"
+    @run_context.include_recipe "runit"
+
     std_directory new_resource.etc_dir
     std_directory new_resource.log_dir
     std_directory "#{new_resource.log_dir}/sasl"

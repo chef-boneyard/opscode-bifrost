@@ -1,15 +1,7 @@
 # OTP service config LWRP
 
-def initialize(*args)
-  super
-  @action = :create
-
-  @run_context.include_recipe "erlang_binary::default"
-  @run_context.include_recipe "logrotate::default"
-  @run_context.include_recipe "runit"
-end
-
-actions :create, :restart, :default => :create
+actions :create, :restart
+default_action :create
 
 # app name used to derive standard values
 attribute :name, :kind_of => String, :name_attribute => true
