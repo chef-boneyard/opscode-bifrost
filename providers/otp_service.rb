@@ -75,6 +75,8 @@ action :deploy do
       revision opts[:revision]
       tarball tarball
       root_dir opts[:root_dir]
+      owner opts[:owner]
+      group opts[:group]
       force_deploy opts[:force_deploy] || opts[:development_mode]
       app_environment opts[:app_environment]
       estatsd_host opts[:estatsd_host]
