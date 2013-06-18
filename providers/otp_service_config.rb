@@ -63,7 +63,7 @@ action :create do
       cookbook "logrotate"
       owner "root"
       group "root"
-      mode "644"
+      mode "755"
     end
 
     # Drop off an rsyslog configuration
