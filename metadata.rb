@@ -20,7 +20,7 @@ depends "apt", "= 1.2.2"
 # https://github.com/opscode-cookbooks/opscode-pedant
 depends "opscode-pedant", "~> 0.1.2"
 
-depends "partial_search"
+depends "partial_search", "~> 1.0.0"
 
 # These come from our infrastructure
 depends "erlang_binary", "~> 0.0.3"
