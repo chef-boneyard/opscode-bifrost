@@ -31,3 +31,4 @@ depends "python"
 depends "deployment-notifications", "~> 0.1.0"
 depends "opscode_extensions", "~> 1.0.2" # for s3 artifacts
 depends "logrotate"
+depends "munin"
