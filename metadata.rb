@@ -24,7 +24,7 @@ depends "partial_search", "~> 1.0.0"
 
 # These come from our infrastructure
 depends "erlang_binary", "~> 0.0.3"
-depends "runit", "0.13.0" # internal fork
+depends "runit", "~> 0.13" # internal fork
 depends "perl"
 depends "git"
 depends "python"
