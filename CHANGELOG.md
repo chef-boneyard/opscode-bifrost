@@ -1,3 +1,6 @@
+# 0.2.16 - 2013-06-26
+- Bump ulimit
+
 # 0.2.15 - 2013-06-17
 - Make hourly logrotate script executable.  Surprisingly important!
 
