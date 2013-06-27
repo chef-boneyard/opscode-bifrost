@@ -3,7 +3,8 @@ default['app_name'] = "oc_bifrost"
 
 # The Git commit / tag / branch you want to check out and build from
 default['oc_bifrost']['revision'] = "f0646c5e87bd96e6e182448d69b1bc3c77ec4243" # 1.1.6
-# When deploying from artifact:
+# When deploying from artifact; Note that sqitch uses this value for
+# the schema version to deploy to, in order to keep things in sync.
 default['oc_bifrost']['build-revision'] = "1.1.6"
 
 default['oc-authz-pedant']['revision'] = "master"
@@ -23,6 +24,7 @@ default['oc_bifrost']['log_rotation']['error_log']['num_to_keep']   = 5
 default['oc_bifrost']['stats_hero_udp_socket_pool_size'] = 20
 default['stats_hero']['estatsd_port'] = 3344
 
+default['sqitch']['engine'] = 'pg'
 default['oc_bifrost']['database']['name'] = "bifrost"
 
 # I think there's Chef 11 syntax to make this possible without
