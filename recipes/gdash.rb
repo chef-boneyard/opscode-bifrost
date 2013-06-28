@@ -54,14 +54,6 @@ whisper_dir = "#{graphite_storage_dir}/whisper"
 # DRY-ness' sake.
 dashboard_root = "#{template_dir}/#{app_name}"
 
-# Scaling factor.  Some metrics are per a 10 second window, so we need
-# to scale them back to give us per second metrics.
-#
-# TODO: It would be nice to grab this from our Graphite
-# configuration, but I don't think that is currently
-# exposed.
-scaling_factor = (1.0 / 10)
-
 # The community cookbook defines owner and group attributes, but our
 # current Opscode gdash cookbook appears to use a hard-coded
 # 'www-data'
@@ -106,8 +98,7 @@ end
  "database_requests_per_second_by_function"].each do |graph|
   template "#{dashboard_root}/#{database_dashboard_name}/#{graph}.graph" do
     variables({
-                :app_name => app_name,
-                :scaling_factor => scaling_factor
+                :app_name => app_name
               })
     owner gdash_owner
     group gdash_group
@@ -119,8 +110,7 @@ end
     source "database_aggregate_metric.graph.erb"
     variables({
                 :app_name => app_name,
-                :metric => metric,
-                :scaling_factor => scaling_factor
+                :metric => metric
               })
     owner gdash_owner
     group gdash_group
@@ -130,8 +120,7 @@ end
     source "database_aggregate_metric_by_function.graph.erb"
     variables({
                 :app_name => app_name,
-                :metric => metric,
-                :scaling_factor => scaling_factor
+                :metric => metric
               })
     owner gdash_owner
     group gdash_group
@@ -180,8 +169,7 @@ database_functions.each do |database_function|
     source "database_function_times.graph.erb"
     variables({
                 :app_name => app_name,
-                :database_function => database_function,
-                :scaling_factor => scaling_factor
+                :database_function => database_function
               })
     owner gdash_owner
     group gdash_group
@@ -191,8 +179,7 @@ database_functions.each do |database_function|
     source "database_function_counts_per_second.graph.erb"
     variables({
                 :app_name => app_name,
-                :database_function => database_function,
-                :scaling_factor => scaling_factor
+                :database_function => database_function
               })
     owner gdash_owner
     group gdash_group
@@ -230,8 +217,7 @@ end
  "http_requests_per_second_by_status_code"].each do |graph|
   template "#{dashboard_root}/#{http_dashboard_name}/#{graph}.graph" do
     variables({
-                :app_name => app_name,
-                :scaling_factor => scaling_factor
+                :app_name => app_name
               })
     owner gdash_owner
     group gdash_group
@@ -243,8 +229,7 @@ end
 # rest of them, making a graph with all of them borderline useless.
 template "#{dashboard_root}/#{http_dashboard_name}/http_overall_response_times.graph" do
   variables({
-              :app_name => app_name,
-              :scaling_factor => scaling_factor,
+              :app_name => app_name
               :metrics => "{lower,mean,upper_90}"
             })
   owner gdash_owner
@@ -302,8 +287,7 @@ modules.each do |mod|
     source "http_request_module_counts_per_second.graph.erb"
     variables({
                 :app_name => app_name,
-                :module => mod,
-                :scaling_factor => scaling_factor
+                :module => mod
               })
     owner gdash_owner
     group gdash_group
@@ -336,7 +320,6 @@ modules.each do |mod|
                   :app_name => app_name,
                   :module => mod,
                   :entity_type => entity_type,
-                  :scaling_factor => scaling_factor,
                   :threshold => http_method_count_threshold
                 })
       owner gdash_owner

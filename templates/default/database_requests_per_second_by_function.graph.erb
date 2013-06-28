@@ -3,11 +3,7 @@ area        :none
 vtitle      "calls / sec"
 description "Overall counts of database calls broken out by function"
 
-# In order to get calls per second by function, we have to go into the
-# 'stats.timers' hierarchy and grab the counts.  This must be properly
-# scaled down, however, since by default they are stored as "counts per N
-# seconds" (where N != 1)
-
 field :count,
-      :data => 'scale(stats.timers.<%= @app_name %>.upstreamRequests.rdbms.<%= @app_name %>_db.*.count, <%= @scaling_factor %>)',
+      :data => 'stats.timers.<%= @app_name %>.upstreamRequests.rdbms.<%= @app_name %>_db.*.count',
+      :scale_to_seconds => 1,
       :alias_by_node => 6 # database function
