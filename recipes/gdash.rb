@@ -229,7 +229,7 @@ end
 # rest of them, making a graph with all of them borderline useless.
 template "#{dashboard_root}/#{http_dashboard_name}/http_overall_response_times.graph" do
   variables({
-              :app_name => app_name
+              :app_name => app_name,
               :metrics => "{lower,mean,upper_90}"
             })
   owner gdash_owner
