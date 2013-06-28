@@ -1,3 +1,7 @@
+# 0.3.1 - 2013-06-28
+- Update gdash graphs to use scaleToSeconds now that count metrics are
+  properly summed up when aggregated down in graphite.
+
 # 0.3.0 - 2013-06-27
 - Use sqitch for schema migrations
 - Update to oc_bifrost 1.3.0
