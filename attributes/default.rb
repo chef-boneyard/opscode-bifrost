@@ -12,8 +12,7 @@ default[app_name]['source'] = "git@github.com:opscode/oc_bifrost.git"
 default[app_name]['revision'] = "master"
 
 # Deployment
-default[app_name]['srv_dir'] = '/srv'
-default[app_name]['etc_dir'] = "/var/opt/opscode/#{app_name}/etc"
+default[app_name]['srv_root'] = '/srv'
 default[app_name]['log_dir'] = "/var/log/#{app_name}"
 default[app_name]['owner'] = 'opscode'
 default[app_name]['group'] = 'opscode'

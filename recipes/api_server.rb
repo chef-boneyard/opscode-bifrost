@@ -12,20 +12,9 @@ app_name = 'oc_bifrost'
 # The otp_service resource handles all the generic
 # OTP service logic:
 # - build from source or download from S3 (depending on dev mode)
-# - deploy build artifact
+# - deploy build artifact (and send hipchat notification)
 # - configure generic OTP service
 #
-# It defaults to using node attributes which is why we don't
-# need to specify them here (although they can be overridden
-# in resource definition).
-#
-# App-specific configuration is done next.
-#
-opscode_bifrost_otp_service app_name do
-  action :deploy
-end
-
-# Bifrost-specific config.
 config_variables = {
   :ip                   => node[app_name]['host'],
   :port                 => node[app_name]['port'],
@@ -47,10 +36,24 @@ config_variables = {
   :estatsd_port         => node['stats_hero']['estatsd_port']
 }
 
-template "#{node[app_name]['etc_dir']}/sys.config" do
+opscode_erlang_otp_service app_name do
+  action :deploy
+  app_environment node['app_environment']
+  revision node[app_name]['revision']
+  source node[app_name]['source']
+  development_mode node[app_name]['development_mode']
+  aws_bucket node[app_name]['aws_bucket']
+  aws_access_key_id node[app_name]['aws_access_key_id']
+  aws_secret_access_key node[app_name]['aws_secret_access_key']
+  root_dir node[app_name]['srv_root']
+  estatsd_host node[app_name]['estatsd_host']
+  hipchat_key node[app_name]['hipchat_key']
+  log_dir node[app_name]['log_dir']
+  console_log_count node[app_name]['console_log_count']
+  console_log_mb node[app_name]['console_log_mb']
+  error_log_count node[app_name]['error_log_count']
+  error_log_mb node[app_name]['error_log_mb']
   owner node[app_name]['owner']
   group node[app_name]['group']
-  mode 0644
-  variables(config_variables)
-  notifies :delayed_restart, "opscode-bifrost_otp_service[#{app_name}]", :immediately
+  sys_config config_variables
 end
