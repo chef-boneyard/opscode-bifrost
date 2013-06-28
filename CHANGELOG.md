@@ -1,3 +1,7 @@
+# 0.3.0 - 2013-06-27
+- Use sqitch for schema migrations
+- Update to oc_bifrost 1.3.0
+
 # 0.2.16 - 2013-06-26
 - Bump ulimit
 

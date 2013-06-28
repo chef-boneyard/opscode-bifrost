@@ -2,10 +2,10 @@ default['app_name'] = "oc_bifrost"
 
 
 # The Git commit / tag / branch you want to check out and build from
-default['oc_bifrost']['revision'] = "f0646c5e87bd96e6e182448d69b1bc3c77ec4243" # 1.1.6
+default['oc_bifrost']['revision'] = "038f978bb074aa67fd0a4ea1e01d8f0e264b61c1" # 1.3.0
 # When deploying from artifact; Note that sqitch uses this value for
 # the schema version to deploy to, in order to keep things in sync.
-default['oc_bifrost']['build-revision'] = "1.1.6"
+default['oc_bifrost']['build-revision'] = "1.3.0"
 
 default['oc-authz-pedant']['revision'] = "master"
 
