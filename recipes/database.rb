@@ -64,26 +64,14 @@ execute "create_database" do
          --command \"SELECT datname FROM pg_database WHERE datname='#{database_name}';\" \
     | grep #{database_name}
     """, :user => "postgres"
-  notifies :run, "execute[migrate_database]", :immediately
-  notifies :run, "execute[add_permissions]", :immediately
 end
 
-# TODO: Properly grant permissions for the different users
-# TODO: Properly set up configuration for users so they don't map to system users
-
-# Currently this just does an install from scratch.  Eventually we
-# will adopt a migration approach.  A front-runner is Sqitch
-# (https://github.com/theory/sqitch), from the creator of pgTAP.
-execute "migrate_database" do
-  command "psql -d #{database_name} --set ON_ERROR_STOP=1 --single-transaction -f bifrost.sql"
-  cwd "#{node['oc_bifrost']['src_dir']}/schema/sql"
+sqitch "bifrost_schema" do
+  action :deploy
+  db_name database_name
+  to_target node['oc_bifrost']['build-revision']
+  top_dir "#{node['oc_bifrost']['src_dir']}/schema"
   user "postgres"
-
-  only_if { File.exist?(node['postgresql']['config']['external_pid_file']) }
-  # Once we're using proper migrations, we can just have this action
-  # execute automatically, instead of being triggered only when a new
-  # database is created
-  action :nothing
 end
 
 # Permissions for the database users got set in the schema... though that means that the role names should be hard-coded in this cookbook.
@@ -99,8 +87,8 @@ execute "add_permissions" do
   user "postgres"
 
   only_if { File.exist?(node['postgresql']['config']['external_pid_file']) }
-  # Eventually, this will probably just be part of the migration
-  action :nothing
+
+  # This can run each time, since the commands in the SQL file are all idempotent anyway.
 end
 
 ################################################################################
