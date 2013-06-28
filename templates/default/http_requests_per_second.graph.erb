@@ -18,9 +18,11 @@ field :moving_average,
 
 # Alternatively, we can use the stats_counts.* version of the metric,
 # which is stored at a reduced resolution.  However, it is NOT scaled
-# down by estatsd, so we have to do that manually.
+# down by estatsd, so we have to do that with graphite's scaleToSeconds
+# function.
 #
 # I'm opting for keeping the higher-resolution data.
 #
 # field :rate,
-#       :data => 'scale(stats_counts.<%= @app_name %>.application.allRequests, <%= @scaling_factor %>)'
+#       :data => 'stats_counts.<%= @app_name %>.application.allRequests',
+#       :scale_to_seconds => 1

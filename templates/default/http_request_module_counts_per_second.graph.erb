@@ -2,9 +2,9 @@ title       "Req/s for <%= @module %> by Object Type"
 area        :none
 hide_legend false
 vtitle      'reqs / sec'
-description "API Requests as seen by stats.timers.<%= @app_name %>.application.byRequestType.<%= @module %>.*.*.count, scaled by <%= @scaling_factor %>"
+description "API Requests as seen by stats.timers.<%= @app_name %>.application.byRequestType.<%= @module %>.*.*.count."
 
 field :group,
       # node 6 = request type
-      :data => 'groupByNode(scale(stats.timers.<%= @app_name %>.application.byRequestType.<%= @module %>.*.*.count, <%= @scaling_factor %>), 6, "sumSeries"))',
+      :data => 'groupByNode(scaleToSeconds(stats.timers.<%= @app_name %>.application.byRequestType.<%= @module %>.*.*.count, 1), 6, "sumSeries"))',
       :no_alias => true
