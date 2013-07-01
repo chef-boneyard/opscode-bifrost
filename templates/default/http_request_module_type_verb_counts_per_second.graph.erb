@@ -2,23 +2,18 @@ title       "Req/s for <%= @module %> / <%= @entity_type %> by HTTP Verb"
 area        :none
 hide_legend false
 vtitle      'reqs / sec'
-description "API Requests as seen by stats.timers.<%= @app_name %>.application.byRequestType.<%= @module %>.<%= @entity_type %>.*.count, scaled by <%= @scaling_factor %>, subject to a threshold of <%= @threshold %>"
+description "API Requests as seen by stats.timers.<%= @app_name %>.application.byRequestType.<%= @module %>.<%= @entity_type %>.*.count subject to a threshold of <%= @threshold %>"
 
 # Our metrics have a structure like this:
 #
 #    stats.timers.<%= @app_name %>.application.byRequestType.$MODULE.$TYPE.$HTTP_VERB.count
 #
-# Since these particular counts are cumulative in <%= (1.0 / @scaling_factor) %>
-# second windows (our current smallest granularity in Graphite), we
-# need to scale down by <%= @scaling_factor %> in order to obtain per
-# second rates.  Count metrics in the 'stats.*' hierarchy (not
-# 'stats.timers.*') are automatically rescaled by estatsd into per
-# second rates.
+# We use graphite's scaleToSeconds function to give us per second values.
 #
 # Setting :no_alias to true allows the individual request types to act
 # as the labels; the ':group' field label is ignored.
 
 field :group,
       # node 7 = HTTP verb
-      :data => 'groupByNode(scale(currentAbove(stats.timers.<%= @app_name %>.application.byRequestType.<%= @module %>.<%= @entity_type %>.*.count, <%= @threshold %>), <%= @scaling_factor %>), 7, "sumSeries"))',
+      :data => 'groupByNode(scaleToSeconds(currentAbove(stats.timers.<%= @app_name %>.application.byRequestType.<%= @module %>.<%= @entity_type %>.*.count, <%= @threshold %>), 1), 7, "sumSeries"))',
       :no_alias => true
