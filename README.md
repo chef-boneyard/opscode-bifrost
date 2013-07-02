@@ -25,8 +25,7 @@ Attributes
 * `node['oc_bifrost']['group']` - The group of the `oc_bifrost` server process
 * `node['oc_bifrost']['revision']` - The Git branch / tag / SHA1 of
   the source code to fetch.
-* `node['oc_bifrost']['build-revision']` - The revision of the build package
-  to deploy.
+* `node['oc_bifrost']['schema-version']` - The version of the schema to deploy.
 * `node['oc_bifrost']['database']['name']` - The name of the
   database.  Defaults to `bifrost`.
 * `node['oc_bifrost']['database']['users']['owner']['name']` - The
@@ -39,19 +38,16 @@ Attributes
   that need to safely explore and debug the database.
 * `node['oc_bifrost']['database']['users']['read_only']['password']`
   - The password for the read-only database user.
-* `node['oc_bifrost']['console_log_size']` -
-  The target size beyond which the console.log file will be targeted for
+* `node['oc_bifrost']['console_log_mb']` -
+  The target size (MB) beyond which the console.log file will be targeted for
   rotation.  This is where each request (whose HTTP response status is
-  less than 500) is logged, so larger is better.  Defaults to 400 MB.
-  Acceptable values can be anything that logrotate accepts (e.g.,
-  1024, 1k, 1M, 1G).
+  less than 500) is logged, so larger is better.  Defaults to 400.
 * `node['oc_bifrost']['console_log_count']` -
   The number of rotated `console.log` files to keep.  Defaults to 5.
-* `node['oc_bifrost']['error_log_size']` -
-  The target size beyond which the error.log file will be targeted for
+* `node['oc_bifrost']['error_log_mb']` -
+  The target size (MB) beyond which the error.log file will be targeted for
   rotation.  This is where each request (whose HTTP response status is
-  500 or greater) is logged.  Defaults to 20 MB. Acceptable values can
-  be anything that logrotate accepts (e.g., 1024, 1k, 1M, 1G)
+  500 or greater) is logged.  Defaults to 20.
 * `node['oc_bifrost']['error_log_count']` -
   The number of rotated `error.log` files to keep.  Defaults to 5.
 
