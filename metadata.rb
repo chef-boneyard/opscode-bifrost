@@ -9,6 +9,7 @@ version          "0.3.1"
 recipe "api_server", "Installs the Bifrost service"
 recipe "database", "Creates the bifrost database, schema, and users"
 
+depends "opscode-erlang" # otp_service
 depends "opscode-postgresql", "~> 0.2.6"
 
 # This is the version we currently have in prod / preprod
@@ -23,12 +24,6 @@ depends "opscode-pedant", "~> 0.1.2"
 depends "partial_search", "~> 1.0.0"
 
 # These come from our infrastructure
-depends "erlang_binary", "~> 0.0.3"
-depends "runit", "~> 0.13" # internal fork
 depends "perl"
-depends "git"
 depends "python"
-depends "deployment-notifications", "~> 0.1.0"
-depends "opscode_extensions", "~> 1.0.2" # for s3 artifacts
-depends "logrotate"
 depends "sqitch"
