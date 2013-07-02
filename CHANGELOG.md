@@ -1,3 +1,6 @@
+# 0.3.2 - 2013-07-02
+- In OHC, get revision to deploy from data bag.
+
 # 0.3.1 - 2013-06-28
 - Update gdash graphs to use scaleToSeconds now that count metrics are
   properly summed up when aggregated down in graphite.
