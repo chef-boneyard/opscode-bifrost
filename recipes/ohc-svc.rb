@@ -1,6 +1,8 @@
 # Hosted chef service instance.
 app = 'oc_bifrost'
 
+include_recipe "opscode-bifrost::ohc-common"
+
 # In hosted chef we have a 'vips' data bag to find
 # estatsd and DB.
 vips = data_bag_item("vips", node[:app_environment])
