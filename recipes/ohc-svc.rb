@@ -3,7 +3,7 @@ app = 'oc_bifrost'
 
 # In hosted chef we have a 'vips' data bag to find
 # estatsd and DB.
-vips = data_bag_item("vips", node[:app_environment])
+vips = data_bag_item("vips", node.chef_environment)
 
 # estatsd host is 1) node override or 2) VIP
 node.default[app]['estatsd_host'] = if node['stats_hero'] && node['stats_hero']['estatsd_host']
@@ -25,11 +25,11 @@ else
 end
 
 # Superuser ID is in the environments data bag
-env = data_bag_item("environments", node[:app_environment])
+env = data_bag_item("environments", node.chef_environment)
 node.default[app]['superuser_id'] = env['opscode-authz-superuser-id']
 
 # DB passwords are in the secrets data bag.
-secrets = data_bag_item("secrets", node[:app_environment])
+secrets = data_bag_item("secrets", node.chef_environment)
 node.default[app]['database']['users']['owner']['password'] = secrets[app]['db_rw_password']
 node.default[app]['database']['users']['read_only']['password'] = secrets[app]['db_ro_password']
 

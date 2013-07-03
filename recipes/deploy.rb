@@ -49,8 +49,8 @@ link "link-current" do
 end
 
 deployment_notification("opscode_extensions_s3_tarball[#{app_name}]") do
-  app_environment node[:app_environment]
+  app_environment node.chef_environment
   service_name app_name
-  estatsd_host data_bag_item("vips", node[:app_environment])["estatsd_host"]
-  hipchat_key data_bag_item("environments", node[:app_environment])["hipchat_key"]
+  estatsd_host data_bag_item("vips", node.chef_environment)["estatsd_host"]
+  hipchat_key data_bag_item("environments", node.chef_environment)["hipchat_key"]
 end

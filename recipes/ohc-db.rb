@@ -4,7 +4,7 @@ app = 'oc_bifrost'
 #
 # In hosted chef, we have a secrets data bag with the passwords.
 #
-secrets = data_bag_item("secrets", node[:app_environment])
+secrets = data_bag_item("secrets", node.chef_environment)
 node.default[app]['database']['users']['owner']['password'] = secrets[app]['db_rw_password']
 node.default[app]['database']['users']['read_only']['password'] = secrets[app]['db_ro_password']
 
