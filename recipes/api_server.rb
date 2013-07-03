@@ -1,34 +1,24 @@
 # The Bifrost API service
 #
-# Pulls in erlang service requirements.
-# In development mode, builds from source, otherwise
-# deploys from build artifact.
-# Then configures the service.
-app_name = node['app_name']
+# In development mode, build from source; otherwise deploys from build
+# artifact. Then configure the service.
+#
+# Uses otp_service which pulls defaults from node[app_name].
+# See otp_service.rb for details.
+#
 
-include_recipe "logrotate::default"
-include_recipe "opscode-bifrost::erlang_application_base"
+app_name = 'oc_bifrost'
 
-if node[app_name]['development_mode']
-  # In dev we build from source
-  include_recipe "opscode-bifrost::build"
-else
-  # Otherwise we deploy from artifact
-  include_recipe "opscode-bifrost::deploy"
-end
-
-# Generic OTP service config
-include_recipe "opscode-bifrost::service"
-
-# Bifrost-specific config
-config_variables = {
+# The otp_service resource handles all the generic
+# OTP service logic:
+# - build from source or download from S3 (depending on dev mode)
+# - deploy build artifact (and send hipchat notification)
+# - configure OTP service
+#
+sys_config = {
   :ip                   => node[app_name]['host'],
   :port                 => node[app_name]['port'],
   :superuser_id         => node[app_name]['superuser_id'],
-  :console_log_size     => node[app_name]['console_log_size'],
-  :console_log_count    => node[app_name]['console_log_count'],
-  :error_log_size       => node[app_name]['error_log_size'],
-  :error_log_count      => node[app_name]['error_log_count'],
   :db_host              => node[app_name]['database']['host'],
   :db_port              => node[app_name]['database']['port'],
   :db_name              => node[app_name]['database']['name'],
@@ -42,10 +32,24 @@ config_variables = {
   :estatsd_port         => node['stats_hero']['estatsd_port']
 }
 
-template "#{node[app_name]['etc_dir']}/sys.config" do
-  owner "opscode"
-  group "opscode"
-  mode 0644
-  variables(config_variables)
-  notifies :restart, "service[#{app_name}]", :delayed
+opscode_erlang_otp_service app_name do
+  action :deploy
+  app_environment node['app_environment']
+  revision node[app_name]['revision']
+  source node[app_name]['source']
+  development_mode node[app_name]['development_mode']
+  aws_bucket node[app_name]['aws_bucket']
+  aws_access_key_id node[app_name]['aws_access_key_id']
+  aws_secret_access_key node[app_name]['aws_secret_access_key']
+  root_dir node[app_name]['srv_root']
+  estatsd_host node[app_name]['estatsd_host']
+  hipchat_key node[app_name]['hipchat_key']
+  log_dir node[app_name]['log_dir']
+  console_log_count node[app_name]['console_log_count']
+  console_log_mb node[app_name]['console_log_mb']
+  error_log_count node[app_name]['error_log_count']
+  error_log_mb node[app_name]['error_log_mb']
+  owner node[app_name]['owner']
+  group node[app_name]['group']
+  sys_config sys_config
 end
