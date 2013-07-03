@@ -25,7 +25,8 @@ Attributes
 * `node['oc_bifrost']['group']` - The group of the `oc_bifrost` server process
 * `node['oc_bifrost']['revision']` - The Git branch / tag / SHA1 of
   the source code to fetch.
-* `node['oc_bifrost']['schema-version']` - The version of the schema to deploy.
+* `node['oc_bifrost']['schema-version']` - Optional, use to override the
+  version of the schema to deploy. By default it migrates to the latest.
 * `node['oc_bifrost']['database']['name']` - The name of the
   database.  Defaults to `bifrost`.
 * `node['oc_bifrost']['database']['users']['owner']['name']` - The

@@ -11,7 +11,6 @@ default[app_name]['source'] = "git@github.com:opscode/oc_bifrost.git"
 # Note: sometimes git notifies for changes when using a tag or branch
 # even though the repo has not changed (causing a service restart).
 default[app_name]['revision'] = "master"
-default[app_name]['schema-version'] = "1.1.6"
 
 # Deployment
 default[app_name]['srv_root'] = '/srv'

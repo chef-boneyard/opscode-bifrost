@@ -69,7 +69,7 @@ end
 sqitch "bifrost_schema" do
   action :deploy
   db_name database_name
-  to_target node['oc_bifrost']['schema-version']
+  to_target node['oc_bifrost']['schema-version'] if node['oc_bifrost']['schema-version']
   top_dir "#{node['oc_bifrost']['src_dir']}/schema"
   user "postgres"
 end
