@@ -3,18 +3,19 @@ app_name = 'oc_bifrost'
 
 
 if node[app_name]['development_mode']
-  node.set[app_name]['src_dir'] = "/vagrant"
+  node.default[app_name]['src_dir'] = "/vagrant"
 else
   src_dir = "/usr/local/src"
+  node.default[app_name]['src_dir'] = "#{src_dir}/#{app_name}"
 
-  directory src_dir do
+  directory node[app_name]['src_dir'] do
     owner "opscode"
     group "opscode"
     mode "0755"
     recursive true
   end
 
-  node.set[app_name]['src_dir'] = "#{src_dir}/#{app_name}"
+  include_recipe "git"
 
   git "#{app_name}_source" do
     destination node[app_name]['src_dir']
