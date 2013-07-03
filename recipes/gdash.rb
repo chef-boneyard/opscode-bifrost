@@ -370,7 +370,7 @@ bifrost_hosts = partial_search(:node, "role:opscode-bifrost",
 # is running on (the GDash server) is in the same app_environment as
 # the bifrost hosts.  Probably a sane assumption, but being explicit
 # never hurts.
-server_metric_prefix = case node[:app_environment]
+server_metric_prefix = case node.chef_environment
                        when "rs-preprod"
                          "internal.ec2"
                        else
