@@ -34,7 +34,7 @@ sys_config = {
 
 opscode_erlang_otp_service app_name do
   action :deploy
-  app_environment node['app_environment']
+  app_environment node.chef_environment
   revision node[app_name]['revision']
   source node[app_name]['source']
   development_mode node[app_name]['development_mode']
