@@ -72,6 +72,7 @@ sqitch "bifrost_schema" do
   to_target node['oc_bifrost']['schema-version'] if node['oc_bifrost']['schema-version']
   top_dir "#{node['oc_bifrost']['src_dir']}/schema"
   user "postgres"
+  only_if { File.exist?(node['postgresql']['config']['external_pid_file']) }
 end
 
 # Permissions for the database users got set in the schema... though that means that the role names should be hard-coded in this cookbook.

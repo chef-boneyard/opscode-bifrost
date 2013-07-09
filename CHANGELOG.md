@@ -1,3 +1,13 @@
+# 0.3.5 - 2013-07-09
+- Don't run sqitch resource on backup DB in HA pair.
+
+# 0.3.4 - 2013-07-09
+- Fix last node['app_environment'] reference. Instead use
+  node.chef_environment.
+
+# 0.3.3 - 2013-07-08
+- Use opscode-erlang LWRPs.
+
 # 0.3.2 - 2013-07-02
 - In OHC, get revision to deploy from data bag.
 
