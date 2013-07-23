@@ -4,12 +4,12 @@ maintainer_email "cm@opscode.com"
 license          "All rights reserved"
 description      "Installs/Configures oc_bifrost, the Opscode Authorization API"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "0.3.5"
+version          "0.3.6"
 
 recipe "api_server", "Installs the Bifrost service"
 recipe "database", "Creates the bifrost database, schema, and users"
 
-depends "opscode-postgresql", "~> 0.2.6"
+depends "opscode-postgresql", "~> 0.3.7"
 depends "opscode-erlang" # otp_service
 
 # This is the version we currently have in prod / preprod
