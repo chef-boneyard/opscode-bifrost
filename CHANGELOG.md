@@ -1,3 +1,8 @@
+# 0.3.7 - 2013-07-24
+- Change pooler config to use atoms instead of strings for pool names.
+  This cookbook will now NO LONGER WORK with any oc_bifrost version
+  prior to 1.3.1.
+
 # 0.3.6 - 2013-07-22
 - Bumped opscode-postgresql cookbook dependency to 0.3.7
 
