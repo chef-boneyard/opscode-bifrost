@@ -1,3 +1,6 @@
+# 0.3.6 - 2013-07-22
+- Bumped opscode-postgresql cookbook dependency to 0.3.7
+
 # 0.3.5 - 2013-07-09
 - Don't run sqitch resource on backup DB in HA pair.
 
