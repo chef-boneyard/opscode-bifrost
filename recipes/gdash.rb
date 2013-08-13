@@ -353,7 +353,7 @@ end
 ################################
 
 # Machine-based Graphs
-bifrost_hosts = partial_search(:node, "role:opscode-bifrost",
+bifrost_hosts = partial_search(:node, "chef_environment:#{node.chef_environment} AND role:opscode-bifrost",
                                {"hostname" => ["hostname"]})
 
 # Our Munin clients have different hostnames in preprod (EC2)
