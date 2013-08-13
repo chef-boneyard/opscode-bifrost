@@ -23,7 +23,7 @@ elsif vips["bifrost_pgsql_ip"]
   vips["bifrost_pgsql_ip"]
 else
   Chef::Log.info("Using role search for #{app} DB host")
-  search(:node, "role:bifrost-pgsql")[0].ipaddress
+  search(:node, "chef_environment:#{node.chef_environment} AND role:bifrost-pgsql")[0].ipaddress
 end
 
 # Superuser ID is in the environments data bag
