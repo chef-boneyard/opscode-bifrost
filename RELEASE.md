@@ -103,3 +103,13 @@ Alternatively, do it manually / interactively:
 
 Dont' forget to commit your changes to the
 `opscode-platform-cookbooks` repo!
+
+## Consider Applicability to Enterprise Chef
+
+[Enterprise Chef][] does not currently use this cookbook for its
+bifrost deployment.  When you make a change here, consider whether or
+not Enterprise Chef needs an equivalent update.  It is legitimate to
+_not_ require changes to Enterprise Chef; for instance, if your
+changes pertain solely to Hosted Enterprise Chef.
+
+[Enterprise Chef]:https://github.com/opscode/opscode-omnibus/tree/master/files/private-chef-cookbooks/private-chef
