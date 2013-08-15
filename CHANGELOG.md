@@ -1,3 +1,7 @@
+# 0.3.8 - 2013-08-15
+- Update Test Kitchen dependencies and configuration to latest
+- Qualify all searches with the proper Chef Environment
+
 # 0.3.7 - 2013-07-24
 - Change pooler config to use atoms instead of strings for pool names.
   This cookbook will now NO LONGER WORK with any oc_bifrost version
