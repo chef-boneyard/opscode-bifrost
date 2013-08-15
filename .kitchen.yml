@@ -1,25 +1,28 @@
 ---
 driver_plugin: vagrant
+driver_config:
+  require_chef_omnibus: true
+
 platforms:
 - name: ubuntu-10.04
   driver_config:
     box: opscode-ubuntu-10.04
-    box_url: https://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-ubuntu-10.04.box
+    box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/boxes/opscode-ubuntu-10.04.box
   run_list:
   - recipe[apt]
   - recipe[opscode-dev-shim]
 - name: ubuntu-12.04
   driver_config:
     box: opscode-ubuntu-12.04
-    box_url: https://opscode-vm.s3.amazonaws.com/vagrant/boxes/opscode-ubuntu-12.04.box
+    box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/boxes/opscode-ubuntu-12.04.box
   run_list:
   - recipe[apt]
   - recipe[opscode-dev-shim]
 
 suites:
-- name: default
+- name: deploy
   run_list:
-  - recipe[opscode-bifrost]
+  - recipe[opscode-bifrost::deploy]
   - recipe[opscode-bifrost::test]
   attributes:
     oc_bifrost:

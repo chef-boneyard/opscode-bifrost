@@ -1,4 +1,4 @@
-chef_api :config
+chef_api "https://opsmaster-api.opscode.us/organizations/preprod", node_name: ENV['USER'], client_key: "#{ENV['HOME']}/.chef/#{ENV['USER']}-opsmaster.pem"
 site :opscode
 
 metadata
