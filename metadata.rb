@@ -12,10 +12,11 @@ recipe "database", "Creates the bifrost database, schema, and users"
 depends "opscode-postgresql", "~> 0.3.7"
 depends "opscode-erlang" # otp_service
 
-# This is the version we currently have in prod / preprod
-#
-# It apparently does not play nicely with Ubuntu 12?
-depends "apt", "= 1.2.2"
+# It appears that this is only used in the .kitchen.yml + Berkshelf,
+# and not in any of the recipes in this cookbook. That is, no
+# include_recipe on apt, nor apt_repository LWRP is present, so the
+# version we use shouldn't matter.
+depends "apt"
 
 # This is one of the new cookbooks:
 # https://github.com/opscode-cookbooks/opscode-pedant
