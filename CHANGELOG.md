@@ -1,3 +1,6 @@
+# 0.4.0 - 2013-12-18
+- update dependency on opscode-pedant to get newer opscode-ruby
+
 # 0.3.8 - 2013-08-15
 - Update Test Kitchen dependencies and configuration to latest
 - Qualify all searches with the proper Chef Environment
