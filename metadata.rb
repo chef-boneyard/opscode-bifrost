@@ -4,7 +4,7 @@ maintainer_email "cm@opscode.com"
 license          "All rights reserved"
 description      "Installs/Configures oc_bifrost, the Opscode Authorization API"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "0.3.9"
+version          "0.4.0"
 
 recipe "api_server", "Installs the Bifrost service"
 recipe "database", "Creates the bifrost database, schema, and users"
@@ -20,7 +20,7 @@ depends "apt"
 
 # This is one of the new cookbooks:
 # https://github.com/opscode-cookbooks/opscode-pedant
-depends "opscode-pedant", "~> 0.1.2"
+depends "opscode-pedant", "~> 0.2.0"
 
 depends "partial_search", "~> 1.0.0"
 
