@@ -27,6 +27,9 @@ sys_config = {
   :pool_size            => node[app_name]['database']['connection_pool_size'],
   :max_pool_size        => node[app_name]['database']['max_connection_pool_size'],
   :log_dir              => node[app_name]['log_dir'],
+  :access_log_mb        => node[app_name]['access_log_mb'],
+  :access_log_count     => node[app_name]['access_log_count'],
+  :extended_perf_log    => node[app_name]['extended_perf_log'],
   :udp_socket_pool_size => node[app_name]['stats_hero_udp_socket_pool_size'],
   :estatsd_host         => node[app_name]['estatsd_host'],
   :estatsd_port         => node['stats_hero']['estatsd_port']
@@ -37,9 +40,9 @@ opscode_erlang_otp_service app_name do
   app_environment node.chef_environment
   revision node[app_name]['revision']
   source node[app_name]['source']
-  development_mode node[app_name]['development_mode']
   aws_bucket node[app_name]['aws_bucket']
   aws_access_key_id node[app_name]['aws_access_key_id']
+  development_mode node[app_name]['development_mode']
   aws_secret_access_key node[app_name]['aws_secret_access_key']
   root_dir node[app_name]['srv_root']
   estatsd_host node[app_name]['estatsd_host']
