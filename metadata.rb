@@ -4,7 +4,7 @@ maintainer_email "cm@opscode.com"
 license          "All rights reserved"
 description      "Installs/Configures oc_bifrost, the Opscode Authorization API"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "0.4.0"
+version          "0.4.1"
 
 recipe "api_server", "Installs the Bifrost service"
 recipe "database", "Creates the bifrost database, schema, and users"

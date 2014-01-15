@@ -33,6 +33,14 @@ default[app_name]['console_log_count'] = 5
 default[app_name]['error_log_mb'] = 20
 default[app_name]['error_log_count'] = 5
 
+# Request logging: at current usage rates this should
+#                  give us approximately 2 days of log retention.
+default[app_name]['access_log_mb'] = 200
+default[app_name]['access_log_count'] = 5
+# Set true to capture subrequest perf data as tracked to estatsd in
+# the access log.
+default[app_name]['extended_perf_log'] = false
+
 # estatsd
 default[app_name]['estatsd_host'] = '127.0.0.1'
 default[app_name]['stats_hero_udp_socket_pool_size'] = 20
