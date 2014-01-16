@@ -1,3 +1,9 @@
+# 0.4.1 - 2014-01-15
+- enable canary deploys
+- updates to support 1.4.x of oc_bifrost.
+- This cookbook will no longer work with versions of oc_bifrost
+  prior to 1.4.4
+
 # 0.4.0 - 2013-12-18
 - update dependency on opscode-pedant to get newer opscode-ruby
 
