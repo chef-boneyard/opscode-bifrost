@@ -35,15 +35,18 @@ sys_config = {
   :estatsd_port         => node['stats_hero']['estatsd_port']
 }
 
+# AWS keys for deployment
+artifact_aws = chef_vault_item('aws', 'aws-preprod_opscode-ci-ro')['data']
+
 opscode_erlang_otp_service app_name do
   action :deploy
   app_environment node.chef_environment
   revision node[app_name]['revision']
   source node[app_name]['source']
   aws_bucket node[app_name]['aws_bucket']
-  aws_access_key_id node[app_name]['aws_access_key_id']
+  aws_access_key_id artifact_aws['aws_access_key_id']
   development_mode node[app_name]['development_mode']
-  aws_secret_access_key node[app_name]['aws_secret_access_key']
+  aws_secret_access_key artifact_aws['aws_secret_access_key']
   root_dir node[app_name]['srv_root']
   estatsd_host node[app_name]['estatsd_host']
   hipchat_key node[app_name]['hipchat_key']

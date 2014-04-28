@@ -38,10 +38,6 @@ node.default[app]['database']['users']['read_only']['password'] = secrets[app]['
 # Hipchat key
 node.default[app]['hipchat_key'] = data_bag_item("environments", node.chef_environment)["hipchat_key"]
 
-# AWS keys for deployment
-artifact_aws = data_bag_item("aws", "rs-preprod")
-node.default[app]['aws_access_key_id'] = artifact_aws['aws_access_key_id']
-node.default[app]['aws_secret_access_key'] = artifact_aws['aws_secret_access_key']
 node.default[app]['aws_bucket'] = 'opscode-ci'
 
 include_recipe "opscode-bifrost::api_server"
