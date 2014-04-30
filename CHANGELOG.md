@@ -1,3 +1,6 @@
+# 0.5.0 - 2014-04-30
+- [OPS-133] use `chef_vault_item` with IAM user instead of master creds
+
 # 0.4.1 - 2014-01-15
 - enable canary deploys
 - updates to support 1.4.x of oc_bifrost.
