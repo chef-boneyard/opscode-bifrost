@@ -1,3 +1,6 @@
+# 0.5.1 - 2014-04-30
+- We should totally use the correct data bag name for the vault
+
 # 0.5.0 - 2014-04-30
 - [OPS-133] use `chef_vault_item` with IAM user instead of master creds
 
