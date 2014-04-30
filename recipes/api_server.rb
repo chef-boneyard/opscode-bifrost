@@ -36,7 +36,7 @@ sys_config = {
 }
 
 # AWS keys for deployment
-artifact_aws = chef_vault_item('aws', 'aws-preprod_opscode-ci-ro')['data']
+artifact_aws = chef_vault_item('vault', 'aws-preprod_opscode-ci-ro')['data']
 
 opscode_erlang_otp_service app_name do
   action :deploy
