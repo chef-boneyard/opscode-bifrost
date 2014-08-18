@@ -32,4 +32,4 @@ depends "sqitch"
 
 # we manage secrets with chef-vault, use the version that supports
 # dev_mode for fallback purposes.
-depends "chef-vault", "~> 1.0.4"
+depends "chef-vault", "~> 1.0"
