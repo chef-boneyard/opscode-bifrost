@@ -1,3 +1,6 @@
+# 0.5.2 - 2014-08-18
+- Relax version constraint on chef-vault
+
 # 0.5.1 - 2014-04-30
 - We should totally use the correct data bag name for the vault
 
