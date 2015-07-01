@@ -58,4 +58,5 @@ opscode_erlang_otp_service app_name do
   owner node[app_name]['owner']
   group node[app_name]['group']
   sys_config sys_config
+  release_type :relx
 end
