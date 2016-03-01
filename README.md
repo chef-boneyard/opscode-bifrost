@@ -1,6 +1,13 @@
 opscode-bifrost cookbook
 ======================
 
+# DEPRECATED: Moved to chef-server repository
+
+This cookbook is no longer used, and all bifrost related code has been
+moved into the Chef Server repository:
+
+https://github.com/chef/chef-server
+
 ## License
 
 All files in the repository are licensed under the Apache 2.0 license. If any
